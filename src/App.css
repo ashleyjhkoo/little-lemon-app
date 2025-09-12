@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.bg-container_nav {
+    background-color: #fff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bg-container_footer {
+    background-color: #495E57;
+}

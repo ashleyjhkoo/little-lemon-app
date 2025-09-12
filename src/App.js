@@ -1,17 +1,22 @@
 
 import './App.css';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
+import { Provider } from "./Components/ui/provider"
+import Header from './Components/Header';
+import Main from './Components/Main';     
+import Footer from './Components/Footer';
 
 function App() {
+// another example of usage for the App function arguments: 'function App({Component, pageProps}) {'
+  const navClass = 'bg-container_nav';
+  const footerClass = 'bg-container_footer';
+
   return (
-    <>
-      <Header />
+    <Provider>
+      <Header className={navClass} />
       <Main />
-      <Footer />
-    </>
-  );
+      <Footer className={footerClass} />
+    </Provider>
+  )
 }
 
 export default App;

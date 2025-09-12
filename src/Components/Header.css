@@ -1,0 +1,23 @@
+.content-container_nav {
+    display: flex;
+    width: 950px;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.nav-item-container {
+    display: flex;
+    width: 500px;
+    justify-content: space-between;
+}
+
+.nav-item {
+    align-self: center;
+    color: #000;
+    text-align: center;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: normal;
+}

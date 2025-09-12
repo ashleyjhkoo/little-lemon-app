@@ -1,0 +1,58 @@
+.content-container_about {
+    display: flex;
+    width: 950px;
+    height: auto;
+    margin: 0 auto;
+    padding: 60px 0;
+    gap: 80px;
+}
+
+.about-text-items {
+    display: flex;
+    flex-direction: column;
+    width: 435px;
+    height: 600px;
+}
+
+
+.textItem-title {
+    color: #000;
+
+    /* Display_serif */
+    font-family: "Markazi Text";
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.textItem-location {
+    color: #000;
+
+    /* Subheading */
+    font-family: "Markazi Text";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.textItem-description {
+    color: #000;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 40px;
+}
+
+.about-image-item {
+    height: 600px;
+    align-content: flex-end;
+}
+
+.about-image-item img {
+    width: 435px;
+    height: auto;
+}
