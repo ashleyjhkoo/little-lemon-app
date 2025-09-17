@@ -1,18 +1,77 @@
-.bg-container_hero {
-    background-color: #495E57;
-    height: 380px;
-    margin-bottom: 82px;
+  .bg-container_hero {
+      background-color: #495E57;
+      height: auto;
+  }
+
+  .bg-container_weeklySpecials {
+      background-color: #fff;
+  }
+
+  .bg-container_testimonial {
+      background-color: #495E57;
+  }
+
+  .bg-container_about {
+      background-color: #F4CE14;
+  }
+  
+@media (min-width: 500px) {
+  .bg-container_hero {
+      background-color: #495E57;
+      height: 380px;
+  }
+
+  .bg-container_weeklySpecials {
+      background-color: #fff;
+  }
+
+  .bg-container_testimonial {
+      background-color: #495E57;
+  }
+
+  .bg-container_about {
+      background-color: #F4CE14;
+  }
 }
 
-.bg-container_weeklySpecials {
-    background-color: #fff;
+@media (min-width: 1024px) {
+  .bg-container_hero {
+      background-color: #495E57;
+      height: 380px;
+      margin-bottom: 82px;
+  }
+
+  .bg-container_weeklySpecials {
+      background-color: #fff;
+  }
+
+  .bg-container_testimonial {
+      background-color: #495E57;
+  }
+
+  .bg-container_about {
+      background-color: #F4CE14;
+  }
 }
 
-.bg-container_testimonial {
-    background-color: #495E57;
+@media (min-width: 1482px) {
+  .bg-container_hero {
+      background-color: #495E57;
+      height: 380px;
+      margin-bottom: 82px;
+  }
+
+  .bg-container_weeklySpecials {
+      background-color: #fff;
+  }
+
+  .bg-container_testimonial {
+      background-color: #495E57;
+  }
+
+  .bg-container_about {
+      background-color: #F4CE14;
+  }
 }
 
-.bg-container_about {
-    background-color: #F4CE14;
-}
 

@@ -1,87 +1,366 @@
-.content-container_hero {
-    display: flex;
-    flex-direction: column;
-    width: 950px;
-    margin: 0 auto;
-    padding: 20px 0;
-    justify-content: center;
-    position: relative;
+        .content-container_hero {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        margin: 0 auto;
+        padding: 20px 10px;
+        justify-content: center;
+        }
+
+        .content-container_hero ul {
+        list-style-type: none;
+        }
+
+        #hero-title {
+        color: #F4CE14;
+
+        /* Display_serif */
+        font-family: "Markazi Text";
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0;
+        padding: 0;
+        }
+
+        #hero-location {
+        color: #EDEFEE;
+
+        /* Subheading */
+        font-family: "Markazi Text";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        }
+
+        #hero-description {
+        width: 230px;
+        flex-shrink: 0;
+        color: #FFF;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 350;
+        line-height: normal;
+        margin: 20px 0;
+        }
+
+        .content-container_hero > button {
+        display: flex;
+        width: 148px;
+        height: 48px;
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: left;
+        border-radius: 16px;
+        border: none;
+        background: #F4CE14;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        }
+
+        #hero-button {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 450;
+        line-height: normal;
+        }
+
+        .hero-image {
+        /* overflow: hidden; */
+        }
+
+        .hero-image img {
+        /* width: 90%; */
+        max-width: 100%;
+        height: auto;
+        display: block;
+        justify-self: center;
+        /* object-fit: cover; */
+        }
+
+@media (min-width: 500px) {
+        .content-container_hero {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px 20px;
+        justify-content: center;
+        position: relative;
+        }
+
+        .content-container_hero ul {
+        list-style-type: none;
+        }
+
+        #hero-title {
+        color: #F4CE14;
+
+        /* Display_serif */
+        font-family: "Markazi Text";
+        font-size: 64px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0;
+        padding: 0;
+        }
+
+        #hero-location {
+        color: #EDEFEE;
+
+        /* Subheading */
+        font-family: "Markazi Text";
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        }
+
+        #hero-description {
+        width: 230px;
+        flex-shrink: 0;
+        color: #FFF;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 350;
+        line-height: normal;
+        margin: 20px 0;
+        }
+
+        .content-container_hero > button {
+        display: flex;
+        width: 148px;
+        height: 48px;
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: left;
+        border-radius: 16px;
+        border: none;
+        background: #F4CE14;
+        margin-top: 10px;
+        }
+
+        #hero-button {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 450;
+        line-height: normal;
+        }
+
+        .hero-image {
+        position: absolute;
+        justify-content: right;
+        z-index: 10;
+        bottom: 4%;
+        right: 4%;
+        }
+
+        .hero-image img {
+        width: 230px;
+        height: 230px;
+        }
 }
 
-.content-container_hero ul {
-    list-style-type: none;
+
+@media (min-width: 1024px) {
+        .content-container_hero {
+        display: flex;
+        flex-direction: column;
+        width: 950px;
+        margin: 0 auto;
+        padding: 20px 0;
+        justify-content: center;
+        position: relative;
+        }
+
+        .content-container_hero ul {
+        list-style-type: none;
+        }
+
+        #hero-title {
+        color: #F4CE14;
+
+        /* Display_serif */
+        font-family: "Markazi Text";
+        font-size: 64px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0;
+        padding: 0;
+        }
+
+        #hero-location {
+        color: #EDEFEE;
+
+        /* Subheading */
+        font-family: "Markazi Text";
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        }
+
+        #hero-description {
+        width: 230px;
+        flex-shrink: 0;
+        color: #FFF;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 350;
+        line-height: normal;
+        margin: 20px 0;
+        }
+
+        .content-container_hero > button {
+        display: flex;
+        width: 148px;
+        height: 48px;
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: left;
+        border-radius: 16px;
+        border: none;
+        background: #F4CE14;
+        margin-top: 10px;
+        }
+
+        #hero-button {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 450;
+        line-height: normal;
+
+        }
+
+        .hero-image {
+        position: absolute;
+        justify-content: right;
+        z-index: 10;
+        top: 10%;
+        right: 0%;
+        }
+
+        .hero-image img {
+        width: 380px;
+        height: 380px;
+        }
 }
 
-#hero-title {
-    color: #F4CE14;
 
-    /* Display_serif */
-    font-family: "Markazi Text";
-    font-size: 64px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    margin: 0;
-    padding: 0;
-}
+@media (min-width: 1482px) {
+        .content-container_hero {
+        display: flex;
+        flex-direction: column;
+        width: 1350px;
+        margin: 0 auto;
+        padding: 20px 0;
+        justify-content: center;
+        position: relative;
+        }
 
-#hero-location {
-    color: #EDEFEE;
+        .content-container_hero ul {
+        list-style-type: none;
+        }
 
-    /* Subheading */
-    font-family: "Markazi Text";
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
+        #hero-title {
+        color: #F4CE14;
 
-#hero-description {
-    width: 230px;
-    flex-shrink: 0;
-    color: #FFF;
-    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 350;
-    line-height: normal;
-    margin: 20px 0;
-}
+        /* Display_serif */
+        font-family: "Markazi Text";
+        font-size: 64px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin: 0;
+        padding: 0;
+        }
 
-.content-container_hero > button {
-    display: flex;
-    width: 148px;
-    height: 48px;
-    padding: 8px 16px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    align-self: left;
-    border-radius: 16px;
-    border: none;
-    background: #F4CE14;
-    margin-top: 10px;
-}
+        #hero-location {
+        color: #EDEFEE;
 
-#hero-button {
-    color: #000;
-    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 450;
-    line-height: normal;
+        /* Subheading */
+        font-family: "Markazi Text";
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        }
 
-}
+        #hero-description {
+        width: 230px;
+        flex-shrink: 0;
+        color: #FFF;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 350;
+        line-height: normal;
+        margin: 20px 0;
+        }
 
-.hero-image {
-    position: absolute;
-    justify-content: right;
-    z-index: 10;
-    top: 10%;
-    left: 62%;
-}
+        .content-container_hero > button {
+        display: flex;
+        width: 148px;
+        height: 48px;
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        align-self: left;
+        border-radius: 16px;
+        border: none;
+        background: #F4CE14;
+        margin-top: 10px;
+        }
 
-.hero-image img {
-    width: 380x;
-    height: 380px;
+        #hero-button {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 450;
+        line-height: normal;
+
+        }
+
+        .hero-image {
+        position: absolute;
+        justify-content: right;
+        z-index: 10;
+        top: 10%;
+        left: 50%;
+        }
+
+        .hero-image img {
+        display: block;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background: url("../Assets/hero-img_lg.png") no-repeat;
+        width: 671x;
+        height: 380px;
+        padding-left: 700px;
+        }
 }

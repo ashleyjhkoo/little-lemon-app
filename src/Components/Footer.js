@@ -1,7 +1,7 @@
 import './Footer.css';
 import footerLogo from '../Assets/little-lemon-logo-invert.svg';
 
-const Footer = ({ className, ...pageProps }) => {
+const Footer = ({ className }) => {
     return (
         <footer className={className}>
                 <section class="content-container_footer">

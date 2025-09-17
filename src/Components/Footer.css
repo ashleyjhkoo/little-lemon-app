@@ -1,117 +1,477 @@
+    .content-container_footer {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 40px 10px;
+        gap: 40px;
+    }
 
-.content-container_footer {
-    width: 950px;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
-    justify-content: center;
-    padding: 60px 0;
-    gap: 60px;
+    .footer-logo-item {
+        align-self: start;
+    }
+
+    .footer-menu-groups {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        margin-left: 0;
+        margin-right: 0;
+        gap: 40px;
+    }
+
+    .footer-menu-groups h2 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: #F4CE14;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    .footer-menu-group  ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .footer-menu-group  li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px; 
+        overflow: hidden;
+        color: #FFF;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    #contactList-1::before {
+        content: url('../Assets/icon_location.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #contactList-2::before {
+        content: url('../Assets/icon_phone.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #contactList-3::before {
+        content: url('../Assets/icon_email.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-1::before {
+        content: url('../Assets/icon_facebook.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-2::before {
+        content: url('../Assets/icon_youTube.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-3::before {
+        content: url('../Assets/icon_instagram.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-4::before {
+        content: url('../Assets/icon_linkedin.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+@media (min-width: 500px) {
+    .content-container_footer {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 40px 20px;
+        gap: 40px;
+    }
+
+    .footer-logo-item {
+        align-self: start;
+    }
+
+    .footer-menu-groups {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        margin-left: 0;
+        margin-right: 0;
+        gap: 40px;
+    }
+
+    .footer-menu-groups h2 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: #F4CE14;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    .footer-menu-group  ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .footer-menu-group  li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px; 
+        overflow: hidden;
+        color: #FFF;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    #contactList-1::before {
+        content: url('../Assets/icon_location.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #contactList-2::before {
+        content: url('../Assets/icon_phone.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #contactList-3::before {
+        content: url('../Assets/icon_email.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-1::before {
+        content: url('../Assets/icon_facebook.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-2::before {
+        content: url('../Assets/icon_youTube.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-3::before {
+        content: url('../Assets/icon_instagram.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-4::before {
+        content: url('../Assets/icon_linkedin.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
 }
 
-.footer-logo-item {
-    align-content: center;
+@media (min-width: 1024px) {
+    .content-container_footer {
+        width: 950px;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 60px 0;
+        gap: 60px;
+    }
+
+    .footer-logo-item {
+        align-content: center;
+    }
+
+    .footer-menu-groups {
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto;
+        justify-content: center;
+        gap: 40px;
+    }
+
+    .footer-menu-groups h2 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: #F4CE14;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    .footer-menu-group  ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .footer-menu-group  li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px; 
+        overflow: hidden;
+        color: #FFF;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    #contactList-1::before {
+        content: url('../Assets/icon_location.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #contactList-2::before {
+        content: url('../Assets/icon_phone.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #contactList-3::before {
+        content: url('../Assets/icon_email.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-1::before {
+        content: url('../Assets/icon_facebook.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-2::before {
+        content: url('../Assets/icon_youTube.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-3::before {
+        content: url('../Assets/icon_instagram.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-4::before {
+        content: url('../Assets/icon_linkedin.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
 }
 
-.footer-menu-groups {
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
-    justify-content: center;
-    gap: 40px;
-}
+@media (min-width: 1482px) {
+    .content-container_footer {
+        width: 1350px;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 60px 0;
+        gap: 60px;
+    }
 
-.footer-menu-groups h2 {
-    margin-top: 0;
-    margin-bottom: 16px;
-    color: #F4CE14;
-    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
+    .footer-logo-item {
+        align-content: center;
+    }
 
-.footer-menu-group  ul {
-    list-style-type: none;
-    padding-left: 0;
-}
+    .footer-menu-groups {
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto;
+        justify-content: center;
+        gap: 120px;
+    }
 
-.footer-menu-group  li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px; 
-    overflow: hidden;
-    color: #FFF;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
+    .footer-menu-groups h2 {
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: #F4CE14;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
 
-#contactList-1::before {
-    content: url('../Assets/icon_location.svg'); 
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5em; /* Spacing between icon and text */
-    color: #fff;
-}
+    .footer-menu-group  ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
 
-#contactList-2::before {
-    content: url('../Assets/icon_phone.svg'); 
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5em; /* Spacing between icon and text */
-    color: #fff;
-}
+    .footer-menu-group  li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px; 
+        overflow: hidden;
+        color: #FFF;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
 
-#contactList-3::before {
-    content: url('../Assets/icon_email.svg'); 
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5em; /* Spacing between icon and text */
-    color: #fff;
-}
+    #contactList-1::before {
+        content: url('../Assets/icon_location.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
 
-#socialMediaList-1::before {
-    content: url('../Assets/icon_facebook.svg'); 
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5em; /* Spacing between icon and text */
-    color: #fff;
-}
+    #contactList-2::before {
+        content: url('../Assets/icon_phone.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
 
-#socialMediaList-2::before {
-    content: url('../Assets/icon_youTube.svg'); 
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5em; /* Spacing between icon and text */
-    color: #fff;
-}
+    #contactList-3::before {
+        content: url('../Assets/icon_email.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
 
-#socialMediaList-3::before {
-    content: url('../Assets/icon_instagram.svg'); 
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5em; /* Spacing between icon and text */
-    color: #fff;
-}
+    #socialMediaList-1::before {
+        content: url('../Assets/icon_facebook.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
 
-#socialMediaList-4::before {
-    content: url('../Assets/icon_linkedin.svg'); 
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5em; /* Spacing between icon and text */
-    color: #fff;
+    #socialMediaList-2::before {
+        content: url('../Assets/icon_youTube.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-3::before {
+        content: url('../Assets/icon_instagram.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
+
+    #socialMediaList-4::before {
+        content: url('../Assets/icon_linkedin.svg'); 
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 0.5em; /* Spacing between icon and text */
+        color: #fff;
+    }
 }
