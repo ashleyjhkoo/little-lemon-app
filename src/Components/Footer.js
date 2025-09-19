@@ -1,19 +1,24 @@
 import './Footer.css';
 import footerLogo from '../Assets/little-lemon-logo-invert.svg';
+import { Link, NavLink } from 'react-router-dom';
 
 const Footer = ({ className }) => {
     return (
         <footer className={className}>
                 <section class="content-container_footer">
-                    <section class="footer-logo-item"><img src={footerLogo} alt="Little Lemon logo inverted" /></section>
+                    <section class="footer-logo-item">
+                        <Link to="/">
+                            <img src={footerLogo} alt="Little Lemon logo inverted" />
+                        </Link>
+                    </section>
                     <ul class="footer-menu-groups">
                         <nav class="footer-menu-group menuGroup-nanvigation">
                             <h2>Navigation</h2>
                             <ul>
-                                <li>Home</li>
-                                <li>About</li>
+                                <li><NavLink to="/">Home</NavLink></li>
+                                <li><NavLink to="/about">About</NavLink></li>
                                 <li>Menu</li>
-                                <li>Reservations</li>
+                                <li><NavLink to="/reservations">Reservations</NavLink></li>
                                 <li>Order online</li>
                                 <li>Login</li>
                             </ul>

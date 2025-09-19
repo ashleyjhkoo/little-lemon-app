@@ -1,3 +1,7 @@
+/**
+ * This is an old file, not used for the current solution.
+ */
+
 import * as React from "react";
 import { VStack } from "@chakra-ui/react";
 

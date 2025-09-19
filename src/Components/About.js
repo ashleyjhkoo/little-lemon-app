@@ -1,9 +1,10 @@
 import './About.css';
 import littleLemonChicagoPic from '../Assets/little-lemon-chicago-pic.png';
+import React, { forwardRef } from 'react';
 
-const About = (props) => {
-    return (
-      <section class={props.className}>
+const About = forwardRef(({ className }, ref) => {
+  return (
+    <section id="about-section" className={className} ref={ref}>
         <section class="content-container_about">
             <ul class="about-text-items">
                 <li class="about-text-item textItem-title">Little Lemon</li>
@@ -15,9 +16,9 @@ const About = (props) => {
                 <img src={littleLemonChicagoPic} alt="Little Lemon Chicago images" />
             </section>
         </section>
-      </section>
-    );
-};
+    </section>
+  );
+});
 
-export default About;        
+export default About;
 

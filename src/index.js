@@ -2,12 +2,36 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import Main from './Components/Main';
+import Reservations from './Components/Reservations';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [ // Nested routes for the main content
+      {
+        index: true, // Default child route for "/"
+        element: <Main />,
+      },
+      {
+        path: "about",
+        element: <Main />,
+      },
+      {
+        path: "reservations",
+        element: <Reservations />,
+      },
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

@@ -1,3 +1,7 @@
+/**
+ * This is an old file, not used for the current solution.
+ */
+
 import './Nav.css';
 
 const Nav = () => {
