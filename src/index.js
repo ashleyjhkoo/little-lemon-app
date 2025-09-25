@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import Main from './Components/Main';
-import Reservations from './Components/Reservations';
+import BookingPage from './Components/BookingPage';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
         element: <Main />,
       },
       {
-        path: "reservations",
-        element: <Reservations />,
+        path: "bookingpage",
+        element: <BookingPage />,
       },
     ],
   },

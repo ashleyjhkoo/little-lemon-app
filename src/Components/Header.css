@@ -17,6 +17,7 @@
 
     .nav-item-container {
         display: flex;
+        flex-direction: row;
         width: 100%;
         justify-content: left;
         gap: 10px;
@@ -54,6 +55,7 @@
 
     .nav-item-container {
         display: flex;
+        flex-direction: row;
         width: 100%;
         justify-content: left;
         gap: 20px;

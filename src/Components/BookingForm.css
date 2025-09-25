@@ -1,0 +1,399 @@
+.form-container_bookingForm {
+    width: 100%;
+    height: auto;
+}
+
+.legends {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: "DM Serif Text";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 75% */
+    margin-bottom: 20px;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.lis {
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px;
+}
+
+li label {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 120% */
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.fieldset-contactMethod {
+    display: flex; 
+    flex-Direction: column; 
+    gap: 5px;
+    margin-block: 20px;
+}
+
+.legend-contactMethod {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 120% */
+    margin-bottom: 5px;
+}
+
+.ul-contactMethod {
+    display: flex; 
+    flex-direction: row; 
+    gap: 20px;
+}
+
+.li-contactMethodPhone {
+    display: flex;
+    flex-direction: row; 
+    gap: 5px;
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: 20px; /* 142.857% */
+    align-items: center;
+}
+
+.li-contactMethodEmail {
+    display: flex;
+    flex-direction: row; 
+    gap: 5px;
+
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    align-items: center;
+}
+
+input[type="radio"] {
+    width: 30px;
+    height: 30px;
+}
+
+#label-contactMethodPhone {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+}
+
+#label-contactMethodEmail {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+}
+
+select {
+  width: 100%;
+  height: 48px;
+  font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 16px; /* Change font size */
+  color: rgb(135, 135, 135); /* Change text color */
+  background-color: #f8f8f8; /* Change background color of the input field */
+  border: 1px solid #ccc; /* Add a border */
+  padding: 2px 8px; /* Add padding inside the input field */
+  border-radius: 4px; /* Round the corners */
+}
+
+/* Style when the input field is focused */
+select:focus {
+  border-color: rgb(60, 125, 255);
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+  outline: none; /* Remove default outline */
+}
+
+select::selection {
+  background-color: rgb(68, 138, 207); /* Background color of selected text */
+  color: white; /* Text color of selected text */
+}
+
+.li-occasion,
+.li-reservationTime,
+.li-numberOfGuests {
+    position: relative;
+}
+
+.li-occasion select,
+.li-reservationTime select,
+.li-numberOfGuests select {
+    width: 100%;
+    height: 48px;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 16px;
+    color: rgb(135, 135, 135);
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 2px 8px; /* Padding for the text */
+    border-radius: 4px;
+    -webkit-appearance: none; /* Hide default arrow */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.li-occasion::after,
+.li-reservationTime::after,
+.li-numberOfGuests::after {
+    content: '⌄';
+    font-size: 1.5rem;
+    position: absolute;
+    top: 47%;
+    right: 15px; /* Adjust this for padding */
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: rgb(135, 135, 135);
+}
+
+input {
+  height: 48px;
+  font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 16px; /* Change font size */
+  color: rgb(135, 135, 135); /* Change text color */
+  background-color: #f8f8f8; /* Change background color of the input field */
+  border: 1px solid #ccc; /* Add a border */
+  padding: 2px 8px; /* Add padding inside the input field */
+  border-radius: 4px; /* Round the corners */
+}
+
+/* Style when the input field is focused */
+input:focus {
+  border-color: rgb(60, 125, 255);
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+  outline: none; /* Remove default outline */
+}
+
+input::selection {
+  background-color: rgb(68, 138, 207); /* Background color of selected text */
+  color: white; /* Text color of selected text */
+}
+
+input::placeholder {
+  color: rgb(135, 135, 135); /* Text color of selected text */
+}
+
+textarea {
+  height: 80px;
+  font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 16px; /* Change font size */
+  color: #4a4a4a; /* Change text color */
+  background-color: #f8f8f8; /* Change background color of the input field */
+  border: 1px solid #ccc; /* Add a border */
+  padding: 2px 8px; /* Add padding inside the input field */
+  border-radius: 4px; /* Round the corners */
+}
+
+textarea:focus {
+  border-color: rgb(60, 125, 255);
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+  outline: none;/* Remove default outline */
+}
+
+textarea::selection {
+  background-color: rgb(68, 138, 207); /* Background color of selected text */
+  color: white; /* Text color of selected text */
+}
+
+.assistiveTexts {
+    color: #000;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 133.333% */
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.buttons {
+height: 48px;
+}
+
+.buttonCancel {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    padding: 10px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-radius: 8px;
+    border: 1px solid #B3B3B3;
+    background: #FFF;
+}
+
+.buttonConfirmReservation {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 10px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-radius: 8px;
+    background: #D0D0D0;
+}
+
+@media (min-width: 500px) {
+    .form-container_bookingForm {
+        width: 100%;
+        height: auto;
+    }
+
+    .legends {
+        color: var(--Black, #1A1A1A);
+        font-feature-settings: 'liga' off, 'clig' off;
+        font-family: "DM Serif Text";
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 75% */
+        margin-bottom: 20px;
+    }
+
+    .legend-contactMethod {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 120% */
+    margin-bottom: 5px;
+    }
+
+    .buttonGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-sizing: border-box;
+    }
+
+    .buttons {
+    height: 48px;
+    }
+
+}
+
+@media (min-width: 1024px) {
+    .form-container_bookingForm {
+        width: 100%;
+        height: auto;
+    }
+
+    .legends {
+        color: var(--Black, #1A1A1A);
+        font-feature-settings: 'liga' off, 'clig' off;
+        font-family: "DM Serif Text";
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 75% */
+        margin-bottom: 20px;
+    }
+
+    .legend-contactMethod {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 120% */
+    margin-bottom: 5px;
+    }
+
+    .buttonGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-sizing: border-box;
+    }
+
+    .buttons {
+    height: 48px;
+    }
+}
+
+@media (min-width: 1482px) {
+    .form-container_bookingForm {
+        width: 100%;
+        height: auto;
+    }
+
+    .legends {
+        color: var(--Black, #1A1A1A);
+        font-feature-settings: 'liga' off, 'clig' off;
+        font-family: "DM Serif Text";
+        font-size: 42px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 75% */
+        margin-bottom: 20px;
+    }
+
+    .legend-contactMethod {
+    color: var(--Black, #1A1A1A);
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 120% */
+    margin-bottom: 5px;
+    }
+
+    .buttonGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-sizing: border-box;
+    }
+
+    .buttons {
+    height: 48px;
+    }
+}

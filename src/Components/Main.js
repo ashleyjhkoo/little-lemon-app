@@ -5,7 +5,7 @@ import Testimonial from './Testimonial';
 import About from './About';
 import { useScrollToSection } from '../Hooks/useScrollToSection';
 
-const Main = (about) => {
+const Main = () => {
     const heroClass = 'bg-container_hero';
     const weeklyClass = 'bg-container_weeklySpecials';
     const testimonialClass = 'bg-container_testimonial';

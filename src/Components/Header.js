@@ -1,6 +1,6 @@
 import './Header.css';
 import littleLemonLogoForHeader from '../Assets/Little-Lemon-Logo-header.png';
-// import React from "react";
+import React from "react";
 import { Link, NavLink } from 'react-router-dom';
 
 const Header = ({ className }) => {
@@ -14,7 +14,7 @@ const Header = ({ className }) => {
                     <ul className="nav-item-container">
                         <li className="nav-item"><NavLink to="/">Home</NavLink></li>
                         <li className="nav-item"><NavLink to="/about">About</NavLink></li>
-                        <li className="nav-item"><NavLink to="/reservations">Reservations</NavLink></li>
+                        <li className="nav-item"><NavLink to="/bookingpage">Reservations</NavLink></li>
                         <li className="nav-item">Order Online</li>
                         <li className="nav-item">Login</li>
                     </ul>

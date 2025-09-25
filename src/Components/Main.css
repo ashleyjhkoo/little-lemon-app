@@ -18,7 +18,7 @@
 @media (min-width: 500px) {
   .bg-container_hero {
       background-color: #495E57;
-      height: 380px;
+      height: auto;
   }
 
   .bg-container_weeklySpecials {
@@ -37,7 +37,7 @@
 @media (min-width: 1024px) {
   .bg-container_hero {
       background-color: #495E57;
-      height: 380px;
+      height: auto;
       margin-bottom: 82px;
   }
 
