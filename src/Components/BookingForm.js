@@ -1,12 +1,19 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect } from 'react';
 import './BookingForm.css';
 
-const BookingForm = ({ className }) => {
+const BookingForm = ({ className, 
+                       availableTimes, 
+                       resDate,
+                       resTime,
+                       handleDateChange,
+                       handleTimeChange,
+                       dateError,
+                       timeError,
+                       minDate
+}) => {
     const bookingFormId = useId();
-    const [formData, setFormData] = useState({
-        occasion: '',
-        resDate: '',
-        resTime: '17:00',
+    const initialFormData = {
+        occasion: 'Birthday',
         guests: 1,
         firstName: '',
         lastName: '',
@@ -14,20 +21,187 @@ const BookingForm = ({ className }) => {
         phoneNumber: '',
         emailAddress: '',
         comments: '',
-    });
+    };
+    const [formData, setFormData] = useState(initialFormData);
+    const [errors, setErrors] = useState({});   
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+    const resetForm = () => {
+        setFormData(initialFormData);
+    };
+
+    // this function controls all user input updates
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if (name === 'resDate' || name === 'resTime') {
+            return;
+        }
+        const newErrors = { ...errors };
+        
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
+
+        // Basic validation for required fields
+        if (['firstName', 'lastName'].includes(name) && value.trim() === '') {
+            newErrors[name] = `${name} is required`;
+        } else if (['firstName', 'lastName'].includes(name)) {
+            newErrors[name] = ''; // Clear error if field is filled
+        }
+
+        // Conditional validation based on contactMethod
+        if (name === 'contactMethod' || name === 'phoneNumber' || name === 'emailAddress') {
+            const currentContactMethod = name === 'contactMethod' ? value : formData.contactMethod;
+            const currentPhoneNumber = name === 'phoneNumber' ? value : formData.phoneNumber;
+            const currentEmailAddress = name === 'emailAddress' ? value : formData.emailAddress;
+
+            if (currentContactMethod === 'phone') {
+                if (currentPhoneNumber.trim() === '') {
+                    newErrors.phoneNumber = 'Phone number is required';
+                } else {
+                    newErrors.phoneNumber = '';
+                }
+                newErrors.emailAddress = ''; // Clear email error if phone is selected
+            } else if (currentContactMethod === 'email') {
+                if (currentEmailAddress.trim() === '') {
+                    newErrors.emailAddress = 'Email address is required';
+                } else if (!/\S+@\S+\.\S+/.test(formData.emailAddress)) {
+                    newErrors.emailAddress = 'Email address is invalid.';
+                } else {
+                    newErrors.emailAddress = '';
+                }
+                newErrors.phoneNumber = ''; // Clear phone error if email is selected
+            } else { // Handle cases where contactMethod is not yet selected or an invalid option
+                newErrors.phoneNumber = '';
+                newErrors.emailAddress = '';
+            }
+        }
+
+        setErrors(newErrors);
+
+        // Inside handleChange, after updating errors for the current field
+        // the error messages disappear as soon as the required input fields are filled beform the form submission
+        const allRequiredFieldsFilled = Object.keys(initialFormData).every(key => {
+        // Assuming 'firstName', 'phoneNumber', 'emailAddress' are required
+            if (['firstName', 'phoneNumber', 'emailAddress'].includes(key)) {
+                return formData[key].trim() !== '';
+            }
+            return true; // Non-required fields are considered "filled"
+        });
+
+        if (allRequiredFieldsFilled) {
+            setErrors({}); // Clear all errors if all required fields are filled
+        }
+
     };
 
-    const handleSubmit = (e) => {
+    // Perform this function when the submit button is clicked
+    const handleSubmit = (e) => {    
+        //Prevent default form submission
         e.preventDefault();
-        //Add form submission logic here
-        console.log('Form data submitted:', formData);
+
+        // Perform final validation before submission
+        let formIsValid = true;
+        const finalErrors = { ...errors };
+
+        // Check `resDate` and `resTime` validation errors passed from the parent component
+        if (dateError) {
+            formIsValid = false;
+        }
+        if (timeError) {
+            formIsValid = false;
+        }
+
+        // Re-check required fields
+        ['firstName', 'lastName'].forEach(field => {
+            if (formData[field].trim() === '') {
+                finalErrors[field] = `${field} is required`;
+                formIsValid = false;
+            }
+        });
+
+        // Re-check conditional validation
+        if (formData.contactMethod === 'phone' && formData.phoneNumber.trim() === '') {
+            finalErrors.phoneNumber = 'Phone number is required';
+            formIsValid = false;
+        } else if (formData.contactMethod === 'email' && formData.emailAddress.trim() === '') {
+            finalErrors.emailAddress = 'Email address is required';
+            formIsValid = false;
+        }
+
+        setErrors(finalErrors);
+
+        // this is the final validation check before submitting the form
+        // if all required validations are satisfied (formIsValid = true), perform if statement
+        // otherwise, perform else statement
+        if (formIsValid) {
+            // Access the updated formData here
+            console.log('Form submitted with data:', {
+                resDate: resDate, // Access from props
+                resTime: resTime, // Access from props
+                ...formData
+            });
+            // You can now send formData to an API or perform other actions
+            setShowSuccessModal(true);
+            resetForm();
+        } else {
+            console.log('Form has errors:', finalErrors);
+            alert('Please correct the errors in the form.');
+        }
+    };
+
+    // Show success modal after the form is successfully submitted
+    // And let it disappear after 3 seconds
+    useEffect(() => {
+        let timer;
+        if (showSuccessModal) {
+        timer = setTimeout(() => {
+            setShowSuccessModal(false);
+        }, 3000); // Modal disappears after 3 seconds
+        }
+        return () => clearTimeout(timer); // Cleanup the timer
+    }, [showSuccessModal]);
+
+    const areAllFieldsFilled = (e) => {
+        // Define which fields are considered mandatory for submission
+        const mandatoryFields = [
+            'firstName',
+            'lastName',
+            'contactMethod',
+        ];
+
+        const isValidEmail = (email) => {
+        // Regex to check for a basic email format (user@domain.tld)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+        };
+
+        // If contactMethod is 'phone', then phoneNumber is mandatory.
+        // If contactMethod is 'email', then emailAddress is mandatory.
+        if (formData.contactMethod === 'phone') {
+            mandatoryFields.push('phoneNumber');
+        } else if (formData.contactMethod === 'email') {
+            mandatoryFields.push('emailAddress');
+        }
+
+        // Check if all mandatory fields are filled
+        for (const field of mandatoryFields) {
+            if (typeof formData[field] === 'string' && formData[field].trim() === '') {
+                console.error(`Error: The mandatory field '${field}' is empty.`);
+                return false; // A mandatory string field is empty
+            }
+            // You might also want to check for other types of empty values if applicable,
+            // e.g., if (formData[field] === null || formData[field] === undefined)
+
+            // Special validation for emailAddress if it is a mandatory field
+            if (field === 'emailAddress' && !isValidEmail(formData[field])) {
+            console.error(`Error: The email address '${formData[field]}' is not a valid format.`);
+            return false; // Email address is not in a valid format
+            }
+        }
+
+        return true; // All mandatory fields are filled
     };
 
     return (
@@ -56,11 +230,12 @@ const BookingForm = ({ className }) => {
                             <input type="date" 
                                    id={bookingFormId + '-res-date'} 
                                    name="resDate"
-                                   value={formData.resDate}
-                                   onChange={handleChange}
+                                   value={resDate} // Bind value to the prop
+                                   onChange={handleDateChange}
+                                   min={minDate}
                                    aria-describedby={bookingFormId + '-res-date-desc'}
-                                   required 
                             />
+                            {dateError && <p style={{ color: 'red' }}>{dateError}</p>}
                             <span id={bookingFormId + '-res-date-desc'} 
                                   className="assistiveTexts">(Required) Choose reservation date
                             </span>
@@ -69,17 +244,15 @@ const BookingForm = ({ className }) => {
                             <label htmlFor={bookingFormId + '-res-time'}>Reservation time</label>
                             <select id={bookingFormId + '-res-time'}
                                     name="resTime"
-                                    value={formData.resTime}
-                                    onChange={handleChange}
+                                    value={resTime}
+                                    onChange={handleTimeChange}
                                     aria-describedby={bookingFormId + '-res-time-desc'}
                             >
-                                <option>17:00</option>
-                                <option>18:00</option>
-                                <option>19:00</option>
-                                <option>20:00</option>
-                                <option>21:00</option>
-                                <option>22:00</option>             
+                                {availableTimes.map((time) => (
+                                <option key={time}>{time}</option>
+                                ))}
                             </select>
+                            {timeError && <p style={{ color: 'red' }}>{timeError}</p>}
                             <span id={bookingFormId + '-res-time-desc'} 
                                   className="assistiveTexts">(Required) Choose reservation time
                             </span>
@@ -94,7 +267,6 @@ const BookingForm = ({ className }) => {
                                 value={formData.guests}
                                 onChange={handleChange}
                                 aria-describedby={bookingFormId + '-guests-desc'} 
-                                required
                             >
                                 <option>1</option>
                                 <option>2</option>
@@ -126,8 +298,8 @@ const BookingForm = ({ className }) => {
                                    value={formData.firstName}
                                    onChange={handleChange}
                                    aria-describedby={bookingFormId + '-first-name-desc'}
-                                   required 
                             />
+                            {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName}</p>}
                             <span id={bookingFormId + '-first-name-desc'} 
                                   className="assistiveTexts">(Required) Enter customer first name
                             </span>
@@ -141,8 +313,8 @@ const BookingForm = ({ className }) => {
                                    value={formData.lastName}
                                    onChange={handleChange} 
                                    aria-describedby={bookingFormId + '-last-name-desc'}
-                                   required 
                             />
+                            {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName}</p>}
                             <span id={bookingFormId + '-last-name-desc'} 
                                   className="assistiveTexts">(Required) Enter customer last name
                             </span>
@@ -193,12 +365,18 @@ const BookingForm = ({ className }) => {
                                    value={formData.phoneNumber}
                                    placeholder={'For example, 123-456-7890'} 
                                    onChange={handleChange} 
-                                   aria-describedby={bookingFormId + '-phone-number-desc'} 
-                                   required={formData.contactMethod === 'phone'}
+                                   aria-describedby={formData.contactMethod === 'phone' ? bookingFormId + '-phone-number-desc' : undefined} 
                             />
-                            <span id={bookingFormId + '-phone-number-desc'} 
-                                  className="assistiveTexts">(Required) Enter customer phone
-                            </span>
+                            {errors.phoneNumber && formData.contactMethod === 'phone' && (<p style={{ color: 'red' }}>{errors.phoneNumber}</p>)}
+                            {formData.contactMethod === 'phone' ? (
+                                <span id={bookingFormId + '-phone-number-desc'} 
+                                      className="assistiveTexts">(Required) Enter customer phone
+                                </span>
+                            ) : (
+                                <span id={bookingFormId + '-phone-number-desc'} 
+                                      className="assistiveTexts">(Optional) Enter customer phone
+                                </span>
+                            )}    
                         </li>
                         <li className="lis li-contactInformationEmail">
                             <label htmlFor={bookingFormId + '-email-address'}>Email</label>
@@ -208,12 +386,18 @@ const BookingForm = ({ className }) => {
                                    value={formData.emailAddress} 
                                    placeholder={'For example, me@myemail.com'} 
                                    onChange={handleChange}
-                                   aria-describedby={bookingFormId + '-email-address-desc'} 
-                                   required={formData.contactMethod === 'email'}
+                                   aria-describedby={formData.contactMethod === 'email' ? bookingFormId + '-email-address-desc' : undefined} 
                             />
-                            <span id={bookingFormId + '-email-address-desc'} 
-                                  className="assistiveTexts">(Optional) Enter customer email
-                            </span>
+                            {errors.emailAddress && formData.contactMethod === 'email' && (<p style={{ color: 'red' }}>{errors.emailAddress}</p>)}
+                            {formData.contactMethod === 'email' ? (
+                                <span id={bookingFormId + '-email-address-desc'} 
+                                      className="assistiveTexts">(Required) Enter customer email
+                                </span>
+                            ) : (
+                                <span id={bookingFormId + '-email-address-desc'} 
+                                      className="assistiveTexts">(Optional) Enter customer email
+                                </span>
+                            )}
                         </li>
                         <li className="lis li-customerComments">
                             <label htmlFor={bookingFormId + '-comments'}>Comments</label>
@@ -232,8 +416,39 @@ const BookingForm = ({ className }) => {
                 </fieldset>
                 <div role="group" aria-label="Button group label" className="buttonGroup">
                     <button type="button" className="buttons buttonCancel">Cancel</button>
-                    <button type="button" className="buttons buttonConfirmReservation">Confirm reservation</button>
+                    <button type="submit" 
+                            className="buttons buttonConfirmReservation"
+                            //disabled={!areAllFieldsFilled()}
+                            style={{ backgroundColor: areAllFieldsFilled() ? '#495E57' : '#D0D0D0' , color: areAllFieldsFilled() ? '#ffffffff' : '#000000ff'}}
+                    >
+                        Confirm reservation
+                    </button>
                 </div>
+                {showSuccessModal && (
+                    <dialog id="successModal" 
+                            className="modal"
+                            aria-labelledby="successModalTitle"
+                            aria-modal="true"
+                            open
+                    >
+                        <div className="modalContent">
+                            <button 
+                                  type="button"
+                                  className="closeButton" 
+                                  aria-label="Close success modal"
+                                  onClick={() => setShowSuccessModal(false)}>
+                                &times;
+                            </button>
+                            <h2>Success!</h2>
+                            <p>Your form has been submitted successfully.</p>
+                            <button 
+                                className="modalButton" 
+                                onClick={() => setShowSuccessModal(false)}>
+                                    OK
+                            </button>
+                        </div>
+                    </dialog>
+                )}
             </form>
         </>
     );

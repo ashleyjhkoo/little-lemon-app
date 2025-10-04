@@ -280,6 +280,84 @@ height: 48px;
     background: #D0D0D0;
 }
 
+/* Modal Styling - Start */
+/* Modal Overlay */
+.modal {
+  display: flex; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Content */
+.modalContent {
+  background-color: #fefefe;
+  margin: auto; /* Centered */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%; /* Adjust as needed */
+  max-width: 500px; /* Max width */
+  text-align: center;
+  position: relative;
+}
+
+/* Close Button */
+.closeButton {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.closeButton:hover,
+.closeButton:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* Modal Title */
+.modalContent h2 {
+  color: #495E57; /* Green color for success */
+  font-size: 28px;
+  font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+  font-style: bold;
+  margin-bottom: 15px;
+}
+
+/* Modal Message */
+.modalContent p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Modal Button */
+.modalButton {
+  background-color: #495E57;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modalButton:hover {
+  background-color: #35433e;
+}
+/* Modal Styling - End */
+
 @media (min-width: 500px) {
     .form-container_bookingForm {
         width: 100%;
