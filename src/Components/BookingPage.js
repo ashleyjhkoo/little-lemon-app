@@ -3,11 +3,11 @@ import './BookingPage.css';
 import BookingForm from './BookingForm';
 import { fetchAPI } from './MockAPI';
 
-const initialTimes = ['17:00', '18:00', '19:00', '20:00', '21:00'];
+export const initialTimes = ['17:00', '18:00', '19:00', '20:00', '21:00'];
 
 
 // Reducer function to handle state changes for available times
-const updateTimes = (state, action) => {
+export const updateTimes = (state, action) => {
     switch (action.type) {
         case 'SET_TIMES':
             return action.payload;
@@ -17,7 +17,7 @@ const updateTimes = (state, action) => {
 };
 
 // Initialization function, now using the actual API call
-const initializeTimes = async () => {
+export const initializeTimes = async () => {
   try {
         // Initialize with current date's times
         // Call API for today's times

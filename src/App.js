@@ -1,6 +1,7 @@
 
+import React from 'react'; 
 import './App.css';
-import { Provider } from "./Components/ui/provider"
+// import { Provider } from "./Components/ui/provider"
 import Header from './Components/Header';
 import { Outlet } from 'react-router-dom';
 // import Main from './Components/Main';     
@@ -12,14 +13,16 @@ function App() {
   const footerClass = 'bg-container_footer';
 
   return (
-    <Provider>
+    // <Provider>
+    <div>
       <Header className={navClass} />
       <main>
         <Outlet /> {/* This is the dynamin body content will be rendered */}
       </main>
       {/* <Main /> This was used before I applied the React Router nav menu items. */}
       <Footer className={footerClass} />
-    </Provider>
+    </div>
+    // </Provider>
   )
 }
 
