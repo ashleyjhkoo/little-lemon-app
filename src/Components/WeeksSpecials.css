@@ -11,6 +11,10 @@
         position: relative;
         }
 
+        ul > li::marker {
+        content: '';
+        }
+
         #weeklySpecials-title {
         width: 100%;
         color: #000;
@@ -68,6 +72,8 @@
         background-color: #EDEFEE;
         border-radius: 16px 16px 0 0;
         box-sizing: border-box; 
+        padding-left: 0px;
+        padding-bottom: 20px;
         }
 
         .weeklySpecials-texts {
@@ -442,6 +448,7 @@
         border: none;
         justify-self: right;
         align-self: center;
+        grid-column: 3 / 4;
         }
 
         #weeklySpecials-button {
@@ -456,6 +463,7 @@
         .weeklySpecials-cards {
         display: grid;
         width:100%;
+        /* grid-row: 2 / 3; */
         grid-template-rows: 238px 24px 126px 24px;
         grid-template-columns: 130px 130px 130px;
         grid-row-gap: 20px;

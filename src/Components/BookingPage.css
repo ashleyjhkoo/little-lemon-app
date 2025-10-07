@@ -1,3 +1,5 @@
+@import url("../css_reset.css");
+
 .bg-container_bookingPage {
     background-color: #EDEFEE;
 }
@@ -15,6 +17,10 @@
 
 }
 
+ul > li::marker {
+    content: '';
+}
+
 .form-container_bookingForm {
     display: flex; 
     flex-direction: column;
@@ -24,9 +30,19 @@
 }
 
 #reservations-title {
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
     font-size: 32px;
-    font-style: bold;
+    font-style: normal;
     margin-bottom: 10px;
+    font-weight: 500px;
+}
+
+h1 {
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    margin-bottom: 10px;
+    font-weight: 500px;
 }
 
 @media (min-width: 500px) {

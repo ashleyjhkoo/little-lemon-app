@@ -13,7 +13,8 @@
           "<rootDir>/node_modules/@ark-ui/react/dist/providers/$1/index.cjs",
           "<rootDir>/node_modules/@ark-ui/react/dist/providers/$1.cjs",
         ],
-        "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/fileMock.js"
+        // "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/fileMock.js",
+        '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
       },
       transform: {
         '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',

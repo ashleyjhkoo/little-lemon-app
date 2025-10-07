@@ -10,6 +10,10 @@
         gap: 40px;
     }
 
+    ul > li::marker {
+      content: '';
+    }
+
     .footer-logo-item {
         align-self: start;
     }
@@ -21,6 +25,11 @@
         margin-left: 0;
         margin-right: 0;
         gap: 40px;
+        padding-left: 0;
+    }
+
+    .footer-menu-groups a:visited {
+        color: #fff;
     }
 
     .footer-menu-groups h2 {
@@ -52,6 +61,7 @@
         font-style: normal;
         font-weight: 400;
         line-height: normal;
+        padding-left: 0;
     }
 
     #contactList-1::before {
@@ -117,6 +127,15 @@
         color: #fff;
     }
 
+    .nav-item a:visited {
+    /* color: #fff; Keep the same color even after visiting */
+    text-decoration: none; /* Keep no underline */
+    }
+
+    a:-webkit-any-link {
+        text-decoration: none;
+    }
+
 @media (min-width: 500px) {
     .content-container_footer {
         width: 100%;
@@ -141,6 +160,7 @@
         margin-left: 0;
         margin-right: 0;
         gap: 40px;
+        padding-left: 0;
     }
 
     .footer-menu-groups h2 {
@@ -260,6 +280,7 @@
         margin: 0 auto;
         justify-content: center;
         gap: 40px;
+        padding-left: 0;
     }
 
     .footer-menu-groups h2 {
@@ -379,6 +400,7 @@
         margin: 0 auto;
         justify-content: center;
         gap: 120px;
+        padding-left: 0;
     }
 
     .footer-menu-groups h2 {

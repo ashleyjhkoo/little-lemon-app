@@ -21,8 +21,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "_comment_test": "react-scripts test",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "react-scripts test",
+    "_comment_test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -1,3 +1,9 @@
+@import url("../css_reset.css");
+
+ul > li::marker {
+      content: '';
+}
+
 .form-container_bookingForm {
     width: 100%;
     height: auto;
@@ -19,6 +25,7 @@ ul {
     flex-direction: column;
     flex-wrap: wrap;
     gap: 20px;
+    list-style-type: none;
 }
 
 .lis {

@@ -9,6 +9,17 @@
         padding: 20px 10px;
         justify-content: center;
         gap: 0;
+        box-sizing: border-box;
+        }
+
+        .content-container_hero ul > li {
+        text-align: left;
+        }
+
+        ul > li::marker {
+        display: none;
+        content: '';
+        overflow: 
         }
 
         .content-container_hero ul {
@@ -74,10 +85,17 @@
         font-style: normal;
         font-weight: 450;
         line-height: normal;
+        white-space: nowrap;
+        }
+
+        .hero-image::marker {
+        /* overflow: hidden; */
+        display: none;
+        content: '';
         }
 
         .hero-image {
-        /* overflow: hidden; */
+        /* align-self: center; */
         }
 
         .hero-image img {
@@ -86,7 +104,21 @@
         height: auto;
         display: block;
         justify-self: center;
-        /* object-fit: cover; */
+        object-fit: cover;
+        margin: 0 auto;
+        margin-left: 0;
+        margin-right: 0;
+        }
+
+        .hero-image::marker {
+        display: none;
+        content: '';
+        }
+
+        ::marker, ::before::marker, ::after::marker {
+        content: none; /* Removes the marker content */
+        list-style-type: none; /* Removes any list-style markers */
+        /* Add or modify other properties as needed */
         }
 
 @media (min-width: 500px) {
