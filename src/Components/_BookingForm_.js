@@ -1,248 +1,210 @@
 import React, { useState, useId, useEffect } from 'react';
 import './BookingForm.css';
 
-const BookingForm = ({
-  className,
-  availableTimes,
-  resDate,
-  resTime,
-  handleDateChange,
-  handleTimeChange,
-  dateError,
-  timeError,
-  minDate,
+const BookingForm = ({ className, 
+                       availableTimes, 
+                       resDate,
+                       resTime,
+                       handleDateChange,
+                       handleTimeChange,
+                       dateError,
+                       timeError,
+                       minDate
 }) => {
-  const bookingFormId = useId();
-  const initialFormData = {
-    occasion: 'Birthday',
-    guests: 1,
-    firstName: '',
-    lastName: '',
-    contactMethod: 'phone',
-    phoneNumber: '',
-    emailAddress: '',
-    comments: '',
-  };
-  const [formData, setFormData] = useState(initialFormData);
-  const [errors, setErrors] = useState({});
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const bookingFormId = useId();
+    const initialFormData = {
+        occasion: 'Birthday',
+        guests: 1,
+        firstName: '',
+        lastName: '',
+        contactMethod: 'phone',
+        phoneNumber: '',
+        emailAddress: '',
+        comments: '',
+    };
+    const [formData, setFormData] = useState(initialFormData);
+    const [errors, setErrors] = useState({});   
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const resetForm = () => {
-    setFormData(initialFormData);
-    setErrors({});
-  };
-
-  // Step 1: Create a reusable validation function
-  const validateField = (name, value, allData) => {
-    let error = '';
-    // Basic validation for required fields
-    if (['firstName', 'lastName'].includes(name) && value.trim() === '') {
-      error = `${name} is required`;
-    }
-    // Conditional validation based on contactMethod - Old
-    // else if (name === 'phoneNumber' || name === 'emailAddress' || name === 'contactMethod') {
-    //   const currentContactMethod = name === 'contactMethod' ? value : allData.contactMethod;
-    //   const currentPhoneNumber = name === 'phoneNumber' ? value : allData.phoneNumber;
-    //   const currentEmailAddress = name === 'emailAddress' ? value : allData.emailAddress;
-
-    //   if (currentContactMethod === 'phone' && currentPhoneNumber.trim() === '') {
-    //     if (name === 'phoneNumber') error = 'Phone number is required';
-    //   } else if (currentContactMethod === 'email') {
-    //     if (currentEmailAddress.trim() === '') {
-    //       if (name === 'emailAddress') error = 'Email address is required';
-    //     } else if (!/\S+@\S+\.\S+/.test(currentEmailAddress)) {
-    //       if (name === 'emailAddress') error = 'Email address is invalid.';
-    //     }
-    //   }
-    // }
-
-    // Conditional validation based on the currently selected contactMethod - New
-    const { contactMethod, phoneNumber, emailAddress } = allData;
-
-    if (name === 'phoneNumber' && contactMethod === 'phone' && phoneNumber.trim() === '') {
-      error = 'Phone number is required';
-    } else if (name === 'emailAddress' && contactMethod === 'email') {
-      if (emailAddress.trim() === '') {
-        error = 'Email address is required';
-      } else if (!/\S+@\S+\.\S+/.test(emailAddress)) {
-        error = 'Email address is invalid.';
-      }
-    }
-
-    return error;
-  };
-
-  // Step 2: Implement a new handleBlur function
-  const handleBlur = (e) => {
-    // Method - Old
-    // const { name, value } = e.target;
-    // const error = validateField(name, value, formData);
-    // setErrors((prevErrors) => ({
-    //   ...prevErrors,
-    //   [name]: error,
-    // }));
-
-    // Method - New
-    const { name, value } = e.target;
-    const newErrors = { ...errors };
-
-    // 1. Update the form data with the current value.
-    const currentData = { ...formData, [name]: value };
-
-    // 2. Validate the specific field that was blurred.
-    const error = validateField(name, value, currentData);
-    newErrors[name] = error;
-
-    // 3. Conditionally re-validate the contact fields only if the blur event occurred on one of them.
-    // This prevents the error from appearing immediately after selecting a radio button.
-    if (name === 'phoneNumber' && currentData.contactMethod === 'phone') {
-      const phoneError = validateField('phoneNumber', currentData.phoneNumber, currentData);
-      newErrors.phoneNumber = phoneError;
-    } else if (name === 'emailAddress' && currentData.contactMethod === 'email') {
-      const emailError = validateField('emailAddress', currentData.emailAddress, currentData);
-      newErrors.emailAddress = emailError;
-    }
-
-    // 4. If the contactMethod is changed, and the user hasn't blurred the conditional field yet,
-    // we should clear the error for the field that is no longer required.
-    if (name === 'contactMethod') {
-      if (currentData.contactMethod === 'phone') {
-        newErrors.emailAddress = ''; // Clear email error if phone is selected
-      } else if (currentData.contactMethod === 'email') {
-        newErrors.phoneNumber = ''; // Clear phone error if email is selected
-      }
-    }
-
-    setErrors(newErrors);
-
-  };
-
-  // Modified handleChange to only update state without validation
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'resDate' || name === 'resTime') {
-      return;
-    }
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-
-    // For clearing the error as the user types
-    if (errors[name]) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: '',
-      }));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Re-validate all fields before submission
-    let formIsValid = true;
-    const newErrors = {};
-
-    ['firstName', 'lastName'].forEach((field) => {
-      const error = validateField(field, formData[field], formData);
-      if (error) {
-        newErrors[field] = error;
-        formIsValid = false;
-      }
-    });
-
-    if (formData.contactMethod === 'phone') {
-      const error = validateField('phoneNumber', formData.phoneNumber, formData);
-      if (error) {
-        newErrors.phoneNumber = error;
-        formIsValid = false;
-      }
-    } else if (formData.contactMethod === 'email') {
-      const error = validateField('emailAddress', formData.emailAddress, formData);
-      if (error) {
-        newErrors.emailAddress = error;
-        formIsValid = false;
-      }
-    }
-
-    if (dateError) {
-      newErrors.resDate = dateError;
-      formIsValid = false;
-    }
-    if (timeError) {
-      newErrors.resTime = timeError;
-      formIsValid = false;
-    }
-
-    setErrors(newErrors);
-
-    if (formIsValid) {
-      console.log('Form submitted with data:', {
-        resDate: resDate,
-        resTime: resTime,
-        ...formData,
-      });
-      setShowSuccessModal(true);
-      resetForm();
-    } else {
-      console.log('Form has errors:', newErrors);
-      alert('Please correct the errors in the form.');
-    }
-  };
-
-  // Show success modal after the form is successfully submitted
-  useEffect(() => {
-    let timer;
-    if (showSuccessModal) {
-      timer = setTimeout(() => {
-        setShowSuccessModal(false);
-      }, 3000); // Modal disappears after 3 seconds
-    }
-    return () => clearTimeout(timer); // Cleanup the timer
-  }, [showSuccessModal]);
-
-  const areAllFieldsFilled = (e) => {
-    // Define which fields are considered mandatory for submission
-    const mandatoryFields = [
-        'firstName',
-        'lastName',
-        'contactMethod',
-    ];
-
-    const isValidEmail = (email) => {
-    // Regex to check for a basic email format (user@domain.tld)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    const resetForm = () => {
+        setFormData(initialFormData);
     };
 
-    // If contactMethod is 'phone', then phoneNumber is mandatory.
-    // If contactMethod is 'email', then emailAddress is mandatory.
-    if (formData.contactMethod === 'phone') {
-        mandatoryFields.push('phoneNumber');
-    } else if (formData.contactMethod === 'email') {
-        mandatoryFields.push('emailAddress');
-    }
-
-    // Check if all mandatory fields are filled
-    for (const field of mandatoryFields) {
-        if (typeof formData[field] === 'string' && formData[field].trim() === '') {
-            console.error(`Error: The mandatory field '${field}' is empty.`);
-            return false; // A mandatory string field is empty
+    // this function controls all user input updates
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'resDate' || name === 'resTime') {
+            return;
         }
-        // You might also want to check for other types of empty values if applicable,
-        // e.g., if (formData[field] === null || formData[field] === undefined)
+        const newErrors = { ...errors };
+        
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
 
-        // Special validation for emailAddress if it is a mandatory field
-        if (field === 'emailAddress' && !isValidEmail(formData[field])) {
-        console.error(`Error: The email address '${formData[field]}' is not a valid format.`);
-        return false; // Email address is not in a valid format
+        // Basic validation for required fields
+        if (['firstName', 'lastName'].includes(name) && value.trim() === '') {
+            newErrors[name] = `${name} is required`;
+        } else if (['firstName', 'lastName'].includes(name)) {
+            newErrors[name] = ''; // Clear error if field is filled
         }
-    }
 
-    return true; // All mandatory fields are filled
-};
+        // Conditional validation based on contactMethod
+        if (name === 'contactMethod' || name === 'phoneNumber' || name === 'emailAddress') {
+            const currentContactMethod = name === 'contactMethod' ? value : formData.contactMethod;
+            const currentPhoneNumber = name === 'phoneNumber' ? value : formData.phoneNumber;
+            const currentEmailAddress = name === 'emailAddress' ? value : formData.emailAddress;
 
-return (
+            if (currentContactMethod === 'phone') {
+                if (currentPhoneNumber.trim() === '') {
+                    newErrors.phoneNumber = 'Phone number is required';
+                } else {
+                    newErrors.phoneNumber = '';
+                }
+                newErrors.emailAddress = ''; // Clear email error if phone is selected
+            } else if (currentContactMethod === 'email') {
+                if (currentEmailAddress.trim() === '') {
+                    newErrors.emailAddress = 'Email address is required';
+                } else if (!/\S+@\S+\.\S+/.test(formData.emailAddress)) {
+                    newErrors.emailAddress = 'Email address is invalid.';
+                } else {
+                    newErrors.emailAddress = '';
+                }
+                newErrors.phoneNumber = ''; // Clear phone error if email is selected
+            } else { // Handle cases where contactMethod is not yet selected or an invalid option
+                newErrors.phoneNumber = '';
+                newErrors.emailAddress = '';
+            }
+        }
+
+        setErrors(newErrors);
+
+        // Inside handleChange, after updating errors for the current field
+        // the error messages disappear as soon as the required input fields are filled beform the form submission
+        const allRequiredFieldsFilled = Object.keys(initialFormData).every(key => {
+        // Assuming 'firstName', 'phoneNumber', 'emailAddress' are required
+            if (['firstName', 'phoneNumber', 'emailAddress'].includes(key)) {
+                return formData[key].trim() !== '';
+            }
+            return true; // Non-required fields are considered "filled"
+        });
+
+        if (allRequiredFieldsFilled) {
+            setErrors({}); // Clear all errors if all required fields are filled
+        }
+
+    };
+
+    // Perform this function when the submit button is clicked
+    const handleSubmit = (e) => {    
+        //Prevent default form submission
+        e.preventDefault();
+
+        // Perform final validation before submission
+        let formIsValid = true;
+        const finalErrors = { ...errors };
+
+        // Check `resDate` and `resTime` validation errors passed from the parent component
+        if (dateError) {
+            formIsValid = false;
+        }
+        if (timeError) {
+            formIsValid = false;
+        }
+
+        // Re-check required fields
+        ['firstName', 'lastName'].forEach(field => {
+            if (formData[field].trim() === '') {
+                finalErrors[field] = `${field} is required`;
+                formIsValid = false;
+            }
+        });
+
+        // Re-check conditional validation
+        if (formData.contactMethod === 'phone' && formData.phoneNumber.trim() === '') {
+            finalErrors.phoneNumber = 'Phone number is required';
+            formIsValid = false;
+        } else if (formData.contactMethod === 'email' && formData.emailAddress.trim() === '') {
+            finalErrors.emailAddress = 'Email address is required';
+            formIsValid = false;
+        }
+
+        setErrors(finalErrors);
+
+        // this is the final validation check before submitting the form
+        // if all required validations are satisfied (formIsValid = true), perform if statement
+        // otherwise, perform else statement
+        if (formIsValid) {
+            // Access the updated formData here
+            console.log('Form submitted with data:', {
+                resDate: resDate, // Access from props
+                resTime: resTime, // Access from props
+                ...formData
+            });
+            // You can now send formData to an API or perform other actions
+            setShowSuccessModal(true);
+            resetForm();
+        } else {
+            console.log('Form has errors:', finalErrors);
+            alert('Please correct the errors in the form.');
+        }
+    };
+
+    // Show success modal after the form is successfully submitted
+    // And let it disappear after 3 seconds
+    useEffect(() => {
+        let timer;
+        if (showSuccessModal) {
+        timer = setTimeout(() => {
+            setShowSuccessModal(false);
+        }, 3000); // Modal disappears after 3 seconds
+        }
+        return () => clearTimeout(timer); // Cleanup the timer
+    }, [showSuccessModal]);
+
+    const areAllFieldsFilled = (e) => {
+        // Define which fields are considered mandatory for submission
+        const mandatoryFields = [
+            'firstName',
+            'lastName',
+            'contactMethod',
+        ];
+
+        const isValidEmail = (email) => {
+        // Regex to check for a basic email format (user@domain.tld)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+        };
+
+        // If contactMethod is 'phone', then phoneNumber is mandatory.
+        // If contactMethod is 'email', then emailAddress is mandatory.
+        if (formData.contactMethod === 'phone') {
+            mandatoryFields.push('phoneNumber');
+        } else if (formData.contactMethod === 'email') {
+            mandatoryFields.push('emailAddress');
+        }
+
+        // Check if all mandatory fields are filled
+        for (const field of mandatoryFields) {
+            if (typeof formData[field] === 'string' && formData[field].trim() === '') {
+                console.error(`Error: The mandatory field '${field}' is empty.`);
+                return false; // A mandatory string field is empty
+            }
+            // You might also want to check for other types of empty values if applicable,
+            // e.g., if (formData[field] === null || formData[field] === undefined)
+
+            // Special validation for emailAddress if it is a mandatory field
+            if (field === 'emailAddress' && !isValidEmail(formData[field])) {
+            console.error(`Error: The email address '${formData[field]}' is not a valid format.`);
+            return false; // Email address is not in a valid format
+            }
+        }
+
+        return true; // All mandatory fields are filled
+    };
+
+    return (
         <>
             <form className={className} onSubmit={handleSubmit}>
                 <fieldset className="fieldsets fieldset-reservationDetails">
@@ -335,7 +297,6 @@ return (
                                    name="firstName"
                                    value={formData.firstName}
                                    onChange={handleChange}
-                                   onBlur={handleBlur}
                                    aria-describedby={bookingFormId + '-first-name-desc'}
                             />
                             {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName}</p>}
@@ -351,7 +312,6 @@ return (
                                    name="lastName"
                                    value={formData.lastName}
                                    onChange={handleChange} 
-                                   onBlur={handleBlur}
                                    aria-describedby={bookingFormId + '-last-name-desc'}
                             />
                             {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName}</p>}
@@ -374,7 +334,6 @@ return (
                                     value="phone"
                                     checked={formData.contactMethod === 'phone'}
                                     onChange={handleChange}
-                                    onBlur={handleBlur}
                                 />
                                 <label id="label-contactMethodPhone" 
                                        htmlFor={bookingFormId + '-contact-phone'}>Phone
@@ -388,7 +347,6 @@ return (
                                     value="email" 
                                     checked={formData.contactMethod === 'email'}
                                     onChange={handleChange} 
-                                    onBlur={handleBlur}
                                 />
                                 <label id="label-contactMethodEmail" 
                                        htmlFor={bookingFormId + '-contact-email'}>Email</label>
@@ -407,7 +365,6 @@ return (
                                    value={formData.phoneNumber}
                                    placeholder={'For example, 123-456-7890'} 
                                    onChange={handleChange} 
-                                   onBlur={handleBlur}
                                    aria-describedby={formData.contactMethod === 'phone' ? bookingFormId + '-phone-number-desc' : undefined} 
                             />
                             {errors.phoneNumber && formData.contactMethod === 'phone' && (<p style={{ color: 'red' }}>{errors.phoneNumber}</p>)}
@@ -429,7 +386,6 @@ return (
                                    value={formData.emailAddress} 
                                    placeholder={'For example, me@myemail.com'} 
                                    onChange={handleChange}
-                                   onBlur={handleBlur}
                                    aria-describedby={formData.contactMethod === 'email' ? bookingFormId + '-email-address-desc' : undefined} 
                             />
                             {errors.emailAddress && formData.contactMethod === 'email' && (<p style={{ color: 'red' }}>{errors.emailAddress}</p>)}
