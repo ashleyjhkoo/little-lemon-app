@@ -1,0 +1,403 @@
+
+@import url("../css_reset.css");
+
+.bg-container_confirmationPage {
+    background-color: #F4CE14;
+}
+
+.content-container_confirmationPage {
+    width: 90%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 0px;
+    gap: 20px;
+}
+
+.listImage img {
+    display: flex;
+    max-width: 100%;
+    min-width: 1%;
+    height: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    object-fit: cover;
+}
+
+.listTitle h1 {
+    display: flex;
+    justify-content: center;
+    color: #000;
+    font-family: "Markazi Text";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    flex-wrap: wrap;
+}
+
+.listDescription {
+    color: #000;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 305;
+    line-height: normal;
+    flex-wrap: wrap;
+}
+
+.listNumber {
+    color: #000;
+    font-family: Karla;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.listButtons {
+    width: 100%;
+    display: flex;
+    flex-direction: Column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.listButton {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 200px;
+    height: auto;
+    padding: 10px 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    border-radius: 8px;
+    border: 1px solid #B3B3B3;
+    background: #FFF;
+
+    color: #000;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 137.5% */
+}
+
+.viewMyReservationButton {
+    background: #FFF;
+    color: #000;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+.reserveATableButton{
+    background: #FFF;
+    color: #000;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+.homeButton {
+    background: #495E57;
+    color: #FFF;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+
+@media (min-width: 500px) {
+
+    .bg-container_confirmationPage {
+        background-color: #F4CE14;
+    }
+
+    .content-container_confirmationPage {
+        width: 90%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 60px 0px;
+        gap: 20px;
+    }
+
+    .listImage {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .listTitle h1 {
+        display: flex;
+        justify-content: center;
+        color: #000;
+        font-family: "Markazi Text";
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .listDescription {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 305;
+        line-height: normal;
+    }
+
+    .listNumber {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .listButtons {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .listButton {
+        display: flex;
+        flex-wrap: wrap;
+        width: 417px;
+        height: auto;
+        padding: 10px 12px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+
+        border-radius: 8px;
+        border: 1px solid #B3B3B3;
+
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px; /* 137.5% */
+    }
+
+    .viewMyReservationButton {
+        background: #FFF;
+        color: #000;
+    }
+
+    .reserveATableButton{
+        background: #FFF;
+        color: #000;
+    }
+
+    .homeButton {
+        background: #495E57;
+        color: #FFF;
+    }
+}
+
+
+@media (min-width: 1024px) {  
+    .bg-container_confirmationPage {
+        background-color: #F4CE14;
+    }
+
+    .content-container_confirmationPage {
+        width: 950px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 60px 0px;
+        gap: 20px;
+    }
+
+    .listImage {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .listTitle h1 {
+        display: flex;
+        justify-content: center;
+        color: #000;
+        font-family: "Markazi Text";
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .listDescription {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 305;
+        line-height: normal;
+    }
+
+    .listNumber {
+        color: #000;
+        font-family: Karla;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .listButtons {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .listButton {
+        display: flex;
+        flex-wrap: wrap;
+        width: 417px;
+        height: auto;
+        padding: 10px 12px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+
+        border-radius: 8px;
+        border: 1px solid #B3B3B3;
+
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px; /* 137.5% */
+    }
+
+    .viewMyReservationButton {
+        background: #FFF;
+        color: #000;
+    }
+
+    .reserveATableButton{
+        background: #FFF;
+        color: #000;
+    }
+
+    .homeButton {
+        background: #495E57;
+        color: #FFF;
+    }
+}
+
+@media (min-width: 1482px) {
+ 
+    .bg-container_confirmationPage {
+        background-color: #F4CE14;
+    }
+
+    .content-container_confirmationPage {
+        width: 1350px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        justify-content: center;
+        padding: 60px 0px;
+        gap: 20px;
+    }
+
+    .listImage {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .listTitle h1 {
+        display: flex;
+        justify-content: center;
+        color: #000;
+        font-family: "Markazi Text";
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .listDescription {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 305;
+        line-height: normal;
+    }
+
+    .listNumber {
+        color: #000;
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .listButtons {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .listButton {
+        display: flex;
+        flex-wrap: wrap;
+        width: 417px;
+        height: auto;
+        padding: 10px 12px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+
+        border-radius: 8px;
+        border: 1px solid #B3B3B3;
+
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px; /* 137.5% */
+    }
+
+    .viewMyReservationButton {
+        background: #FFF;
+        color: #000;
+    }
+
+    .reserveATableButton{
+        background: #FFF;
+        color: #000;
+    }
+
+    .homeButton {
+        background: #495E57;
+        color: #FFF;
+    }
+}

@@ -46,3 +46,7 @@
   .bg-container_footer {
       background-color: #495E57;
   }
+
+  a, button {
+  cursor: pointer;
+  }

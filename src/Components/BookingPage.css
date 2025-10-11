@@ -5,7 +5,7 @@
 }
 
 .content-container_bookingPage {
-    width: 100%;
+    width: 90%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,38 @@
     justify-content: center;
     padding: 40px 10px;
     gap: 20px;
+}
 
+.tabs-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.tab-button {
+    padding: 10px 15px 10px 0;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-bottom: 3px solid transparent; /* For active indicator */
+    transition: all 0.3s ease;
+
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500px;
+    width: fit-content;
+    white-space: nowrap;
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+.tab-button.active {
+    border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+    color: #000; 
 }
 
 ul > li::marker {
@@ -29,13 +60,21 @@ ul > li::marker {
     gap: 40px;
 }
 
-#reservations-title {
+/* #reservations-title {
     font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
     font-size: 32px;
     font-style: normal;
     margin-bottom: 10px;
     font-weight: 500px;
 }
+
+#view-reservation-title {
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    margin-bottom: 10px;
+    font-weight: 500px;
+} */
 
 h1 {
     font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -51,7 +90,7 @@ h1 {
     }
 
     .content-container_bookingPage {
-        width: 100%;
+        width: 90%;
         height: auto;
         display: flex;
         flex-direction: column;
@@ -62,10 +101,41 @@ h1 {
         gap: 20px;
     }
 
-    #reservations-title {
+    .tabs-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        gap: 20px;
+    }
+
+    .tab-button {
+        padding: 10px 15px 10px 0;
+        border: none;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        border-bottom: 3px solid transparent; /* For active indicator */
+        transition: all 0.3s ease;
+
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500px;
+        width: fit-content;
+        white-space: nowrap;
+    }
+
+    .tab-button:hover {
+        background-color: #e0e0e0;
+    }
+
+    .tab-button.active {
+        border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+        color: #000; 
+    }
+    /* #reservations-title {
         font-size: 38px;
         font-style: bold;
-    }
+    } */
 
     .form-container_bookingForm {
         display: flex; 
@@ -93,10 +163,42 @@ h1 {
         gap: 20px;
     } 
 
-    #reservations-title {
+    .tabs-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        gap: 30px;
+    }
+
+    .tab-button {
+        padding: 10px 15px 10px 0;
+        border: none;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        border-bottom: 3px solid transparent; /* For active indicator */
+        transition: all 0.3s ease;
+
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 38px;
+        font-style: normal;
+        font-weight: 500px;
+        width: fit-content;
+        white-space: nowrap;
+    }
+
+    .tab-button:hover {
+        background-color: #e0e0e0;
+    }
+
+    .tab-button.active {
+        border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+        color: #000; 
+    }
+
+    /* #reservations-title {
         font-size: 42px;
         font-style: bold;
-    }
+    } */
 
     .form-container_bookingForm {
         display: flex; 
@@ -123,9 +225,41 @@ h1 {
         gap: 20px;
     }   
 
-    #reservations-title {
-        font-size: 48px;
+    .tabs-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        gap: 40px;
     }
+
+    .tab-button {
+        padding: 10px 15px 10px 0;
+        border: none;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        border-bottom: 3px solid transparent; /* For active indicator */
+        transition: all 0.3s ease;
+
+        font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+        font-size: 38px;
+        font-style: normal;
+        font-weight: 500px;
+        width: fit-content;
+        white-space: nowrap;
+    }
+
+    .tab-button:hover {
+        background-color: #e0e0e0;
+    }
+
+    .tab-button.active {
+        border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+        color: #000; 
+    }
+
+    /* #reservations-title {
+        font-size: 48px;
+    } */
 
     .form-container_bookingForm {
         display: flex; 

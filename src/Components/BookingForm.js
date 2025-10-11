@@ -1,5 +1,6 @@
 import React, { useState, useId, useEffect } from 'react';
 import './BookingForm.css';
+import { useNavigate } from 'react-router-dom';
 
 const BookingForm = ({
   className,
@@ -11,6 +12,7 @@ const BookingForm = ({
   dateError,
   timeError,
   minDate,
+  submitAPI,
 }) => {
   const bookingFormId = useId();
   const initialFormData = {
@@ -24,8 +26,16 @@ const BookingForm = ({
     comments: '',
   };
   const [formData, setFormData] = useState(initialFormData);
+  const [updatedFormData, setUpdatedFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Call the useNavigate hook
+  const navigate = useNavigate();
+
+  // Add a new state to control the redirection
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const resetForm = () => {
     setFormData(initialFormData);
@@ -137,7 +147,7 @@ const BookingForm = ({
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Re-validate all fields before submission
     let formIsValid = true;
@@ -182,24 +192,63 @@ const BookingForm = ({
         resTime: resTime,
         ...formData,
       });
-      setShowSuccessModal(true);
-      resetForm();
+      setUpdatedFormData({
+        resDate: resDate,
+        resTime: resTime,
+        ...formData,
+      });
+        try {
+          const response = await submitAPI(formData);
+          if(response === true) {
+            // Show confirmation modal in these conditions below:
+            // 1) the form is successfully validated
+            // 2) the submitAPI returns true
+            // 3) the form is successfully submitted
+            setShowConfirmationModal(true);
+            // Then, reset the form data
+            resetForm();
+            // Set the state to trigger the useEffect for redirection
+            setShouldRedirect(true); 
+          } else {
+            // Handle cases where API responds but indicates a failure
+            console.error('API submission failed:', response);
+            alert('Form submission failed. Please try again.');
+          }
+        } catch (error) {
+            // Handle actual network or server errors
+            console.error('Form submission error:', error);
+            alert('An error occurred. Please try again later.');
+        }
     } else {
       console.log('Form has errors:', newErrors);
       alert('Please correct the errors in the form.');
     }
   };
+  // Let the confirmation model disappear in certain time
+  // useEffect(() => {
+  //   let timer;
+  //   if (showConfirmationModal && shouldRedirect) {
+  //     timer = setTimeout(() => {
+  //       setShowSuccessModal(false);
+  //       // Redirect to the success page
+  //       navigate('/confirmation'); 
+  //     }, 21000); // Modal disappears after 3 seconds
+  //   }
+  //   return () => clearTimeout(timer); // Cleanup the timer
+  // }, [showSuccessModal, shouldRedirect, navigate]);
 
-  // Show success modal after the form is successfully submitted
+  // Let the success model disappear in certain time
   useEffect(() => {
     let timer;
-    if (showSuccessModal) {
+    if (showSuccessModal && shouldRedirect) {
       timer = setTimeout(() => {
         setShowSuccessModal(false);
+        // Redirect to the success page
+        navigate('/confirmation/reservation'); 
       }, 3000); // Modal disappears after 3 seconds
     }
     return () => clearTimeout(timer); // Cleanup the timer
-  }, [showSuccessModal]);
+  }, [showSuccessModal, shouldRedirect, navigate]);
 
   const areAllFieldsFilled = (e) => {
     // Define which fields are considered mandatory for submission
@@ -240,6 +289,38 @@ const BookingForm = ({
     }
 
     return true; // All mandatory fields are filled
+};
+
+const handleCancelClick = () => {
+  // Do not show the confirmation modal
+  setShowConfirmationModal(false);
+  // Reset the form data
+  resetForm();
+}
+
+const handleConfirmClick = () => {
+  // Close the confirmation modal
+  setShowConfirmationModal(false);
+  // Show the success modal
+  setShowSuccessModal(true);
+};
+
+const handleOkClick = () => {
+  // Close the success modal
+  setShowSuccessModal(false);
+  // Mark that it is a right time to redirect in the shouldRedirect/setShouldRedirect variable
+  // Set the state to trigger the useEffect for redirection
+  // setShouldRedirect(true);
+  // Redirect to the desired page
+  navigate('/confirmation/reservation');
+};
+
+const formatLabel = (key) => {
+  // Convert camelCase or kebab-case to a human-readable string
+  return key
+    .replace(/-/g, ' ') // Replace dashes with spaces
+    .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+    .replace(/^./, (str) => str.toUpperCase()); // Capitalize the first letter
 };
 
 return (
@@ -459,19 +540,18 @@ return (
                     </ul>
                 </fieldset>
                 <div role="group" aria-label="Button group label" className="buttonGroup">
-                    <button type="button" className="buttons buttonCancel">Cancel</button>
+                    <button type="button" className="buttons buttonCancel" onClick={handleCancelClick}>Cancel</button>
                     <button type="submit" 
                             className="buttons buttonConfirmReservation"
-                            //disabled={!areAllFieldsFilled()}
                             style={{ backgroundColor: areAllFieldsFilled() ? '#495E57' : '#D0D0D0' , color: areAllFieldsFilled() ? '#ffffffff' : '#000000ff'}}
                     >
                         Confirm reservation
                     </button>
                 </div>
-                {showSuccessModal && (
-                    <dialog id="successModal" 
+                {showConfirmationModal && (
+                    <dialog id="confirmationModal" 
                             className="modal"
-                            aria-labelledby="successModalTitle"
+                            aria-labelledby="confirmationModalTitle"
                             aria-modal="true"
                             open
                     >
@@ -479,17 +559,59 @@ return (
                             <button 
                                   type="button"
                                   className="closeButton" 
+                                  aria-label="Close confirmation modal"
+                                  onClick={() => setShowConfirmationModal(false)}>
+                                &times;
+                            </button>
+                            <h2 id="confirmation-modal-title">Confirm your reservation</h2>
+                            <div>
+                              <h3 id="user-form-input-title">Your Input:</h3>
+                              <div className="form-data-row">
+                                {Object.entries(updatedFormData).map(([key, value]) => (
+                                  <div key={key} className="form-data-item">
+                                    <strong>{formatLabel(key)}:</strong> {value}
+                                  </div>
+                                ))}
+                              </div>
+
+                            </div>
+                            <div className="confirmationButtonSet">                            
+                              <button 
+                                  className="confirmationButton modalCancelButton" 
+                                  onClick={() => setShowConfirmationModal(false)}>
+                                      Cancel
+                              </button>
+                              <button 
+                                  className="confirmationButton modalButton" 
+                                  onClick={handleConfirmClick}>
+                                      Confirm
+                              </button>
+                            </div>
+                        </div>
+                    </dialog>
+                )}
+                {showSuccessModal && (
+                    <dialog id="successModal" 
+                            className="modal"
+                            aria-labelledby="successModalTitle"
+                            aria-modal="true"
+                            open
+                    >
+                        <div className="modalContent successModalContent">
+                            <button 
+                                  type="button"
+                                  className="closeButton" 
                                   aria-label="Close success modal"
                                   onClick={() => setShowSuccessModal(false)}>
                                 &times;
                             </button>
-                            <h2>Success!</h2>
-                            <p>Your form has been submitted successfully.</p>
-                            <button 
-                                className="modalButton" 
-                                onClick={() => setShowSuccessModal(false)}>
-                                    OK
-                            </button>
+                            <h2 id="success-modal-title">Congratulations!</h2>
+                              <h3 id="success-modal-description">You successfully submitted the form. </h3>
+                              <button 
+                                  className="successButton modalButton" 
+                                  onClick={handleOkClick}>
+                                      Okay
+                              </button>
                         </div>
                     </dialog>
                 )}

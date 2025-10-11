@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import Main from './Components/Main';
 import BookingPage from './Components/BookingPage';
+import Confirmation from './Components/Confirmation';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "bookingpage",
         element: <BookingPage />,
+      },
+      {
+        path: "view-my-reservation",
+        element: <BookingPage />,
+      },
+      {
+        path: "confirmation/:type",
+        element: <Confirmation />,
       },
     ],
   },

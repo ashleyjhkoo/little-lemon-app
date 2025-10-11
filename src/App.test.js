@@ -16,7 +16,7 @@ jest.mock('./Components/Footer', () => () => <div data-testid="footer">Footer</d
 
 // Mock the external API dependency
 const mockFetchAPI = jest.fn();
-jest.mock('./Components/MockAPI', () => ({
+jest.mock('./API/WebAPI', () => ({
   fetchAPI: () => mockFetchAPI(),
 }));
 
@@ -62,7 +62,12 @@ describe("Booking Form", () => {
       const handleSubmit = jest.fn();
       const firstName = 'Jane';
 
-      render(<BookingForm availableTimes={mockAvailableTimes} firstName={firstName} onSubmit={handleSubmit} />);
+      render(
+        <MemoryRouter>
+          <BookingForm availableTimes={mockAvailableTimes} firstName={firstName} onSubmit={handleSubmit} />
+        </MemoryRouter>
+      
+      );
      
       const headingElement = screen.getByText("Reservation details");
       expect(headingElement).toBeInTheDocument();
@@ -88,7 +93,11 @@ describe("Booking Form", () => {
       const firstName = 'Jane';
       const lastName = 'Doe';
 
-      render(<BookingForm availableTimes={mockAvailableTimes} firstName={firstName} onSubmit={handleSubmit} />);
+      render(
+        <MemoryRouter>
+          <BookingForm availableTimes={mockAvailableTimes} firstName={firstName} onSubmit={handleSubmit} />
+        </MemoryRouter>
+      );
 
       // Fill in all mandatory fields
       fireEvent.change(screen.getByLabelText("Customer first name"), { target: { value: lastName } });

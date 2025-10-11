@@ -4,8 +4,16 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <link rel="stylesheet" href="./src/css_reset.css">
+    
     <!-- Example using Normalize.css from a CDN -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"> -->
+
+
+    <!-- <script type="module">
+      import { fetchAPI, submitAPI } from 'https://cdn.jsdelivr.net/gh/courseraap/capstone@main/api.js';
+      console.log(fetchAPI(new Date()));
+    </script> -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="HandheldFriendly" content="true"/>
     <meta name="theme-color" content="#000000" />
@@ -56,6 +64,8 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!-- Setting up the API library -->
+    <script src="https://raw.githubusercontent.com/courseraap/capstone/main/api.js"></script>
     <div id="root"></div>
     <!--
       This HTML file is a template.

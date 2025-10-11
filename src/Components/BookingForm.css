@@ -13,8 +13,8 @@ ul > li::marker {
     color: var(--Black, #1A1A1A);
     font-feature-settings: 'liga' off, 'clig' off;
     font-family: "DM Serif Text";
-    font-size: 28px;
-    font-style: normal;
+    font-size: 20px;
+    font-style: bold;
     font-weight: 400;
     line-height: 24px; /* 75% */
     margin-bottom: 20px;
@@ -358,10 +358,82 @@ height: 48px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 .modalButton:hover {
   background-color: #35433e;
+}
+
+.modalCancelButton {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 10px 20px;
+  border: 1px solid rgb(0, 0, 0); 
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modalCancelButton:hover {
+  background-color: #dcdcdc;
+  color: rgb(0, 0, 0);
+}
+
+.form-data-row {
+  display: flex; /* Enables flexbox layout */
+  flex-direction: column;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  gap: 20px; /* Adds space between items */
+  margin-bottom: 20px;
+}
+
+.form-data-item {
+  /* Optional styling for individual key-value pairs */
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 24px;
+  font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+#user-form-input-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+.confirmationButtonSet {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.confirmationButton {
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 24px;
+}
+
+.successModalContent {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.successButton {
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 24px;
+}
+
+#success-modal-description {
+    font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.form-data-row {
+    text-align: left;
 }
 /* Modal Styling - End */
 
@@ -375,8 +447,8 @@ height: 48px;
         color: var(--Black, #1A1A1A);
         font-feature-settings: 'liga' off, 'clig' off;
         font-family: "DM Serif Text";
-        font-size: 30px;
-        font-style: normal;
+        font-size: 20px;
+        font-style: bold;
         font-weight: 400;
         line-height: 24px; /* 75% */
         margin-bottom: 20px;
@@ -454,7 +526,7 @@ height: 48px;
         color: var(--Black, #1A1A1A);
         font-feature-settings: 'liga' off, 'clig' off;
         font-family: "DM Serif Text";
-        font-size: 42px;
+        font-size: 32px;
         font-style: normal;
         font-weight: 400;
         line-height: 24px; /* 75% */

@@ -1,10 +1,10 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import './BookingPage.css';
 import BookingForm from './BookingForm';
-import { fetchAPI } from './MockAPI';
+import ViewMyReservationForm from './ViewMyReservationForm';
+import {fetchAPI, submitAPI} from '../API/WebAPI';
 
 export const initialTimes = ['17:00', '18:00', '19:00', '20:00', '21:00'];
-
 
 // Reducer function to handle state changes for available times
 export const updateTimes = (state, action) => {
@@ -20,8 +20,12 @@ export const updateTimes = (state, action) => {
 export const initializeTimes = async () => {
   try {
         // Initialize with current date's times
-        // Call API for today's times
-        const times = await fetchAPI(new Date()); 
+        // Call API for today's times - from the MockAPI.js file
+        // const times = await fetchAPI(new Date()); 
+
+        // Call live API for today's times - from the live web API
+        const times = await fetchAPI(new Date());     
+
         return times;
   // Initialize with initialTimes in case of the error
   // Fallback to hardcoded times on error
@@ -42,11 +46,21 @@ const formatDate = (date) => {
   return date.toISOString().slice(0, 10);
 };
 
-const BookingPage = () => {
+const BookingPage = (tabs) => {
+    // State to track active tab
+    const [activeTab, setActiveTab] = useState('tab1');
+
     // For styling
     const bookingBgClass = 'bg-container_bookingPage';
     const bookingContentClass = 'content-container_bookingPage';
     const formClass = 'form-container_bookingForm';
+    const viewFormClass = 'form-container_viewMyReservationForm';
+
+    // Toggle tab visibility
+    const handleTabClick = (tab) => {
+        // setActiveTab(activeTab === tab ? null : tab);
+        setActiveTab(tab);
+    }
 
     // useReducer hook: 
     // It catch up the available time slots depending on the date selection on the calender using the Fetch API
@@ -146,18 +160,55 @@ const BookingPage = () => {
     return (
         <main className={bookingBgClass}>
             <section className={bookingContentClass}>
-                <h1 id="reservations-title">Reserve a Table</h1>
-                <BookingForm 
-                    className={formClass} 
-                    availableTimes={availableTimes}
-                    resDate={resDate}
-                    resTime={resTime}
-                    handleDateChange={handleDateChange}
-                    handleTimeChange={handleTimeChange}
-                    dateError={dateError}
-                    timeError={timeError}
-                    minDate={minDate} // It disables the past dates
-                />
+                <ul className="tabs-container" role="tablist">
+                        <li
+                            className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
+                            onClick={() => handleTabClick('tab1')}
+                            role="tab"
+                            id="reservations-title"
+                        >
+                            Reserve a Table
+                        </li>
+                        <li
+                            className={`tab-button ${activeTab === 'tab2' ? 'active' : ''}`}
+                            onClick={() => handleTabClick('tab2')}
+                            role="tab"
+                            id="view-reservation-title"
+                        >
+                            View My Reservation
+                        </li>
+                </ul>
+                <div className="tab-content-container">
+                    {/* <div className={`tab-content ${activeTab === 'tab1' ? 'visible' : ''}`}> */}
+                        {/* Content for Tab 1 goes here */}
+                        {/* <h1 id="reservations-title">Reserve a Table</h1> */}
+                    {activeTab === 'tab1' && (
+                        <div className="tab-content">
+                            <BookingForm 
+                                className={formClass} 
+                                availableTimes={availableTimes}
+                                resDate={resDate}
+                                resTime={resTime}
+                                handleDateChange={handleDateChange}
+                                handleTimeChange={handleTimeChange}
+                                dateError={dateError}
+                                timeError={timeError}
+                                minDate={minDate} // It disables the past dates
+                                submitAPI={submitAPI}
+                            />
+                        </div>
+                    )}
+                    {/* Content for Tab 2 goes here */}
+                    {/* <div className={`tab-content ${activeTab === 'tab2' ? 'visible' : ''}`}> */}
+                    {/* <h1 id="view-reservation-title">View My Reservation</h1> */}
+                    {activeTab === 'tab2' && (
+                        <div className="tab-content">
+                            <ViewMyReservationForm 
+                                className={viewFormClass}
+                            />
+                        </div>
+                    )}
+                </div>
             </section>
         </main>
     );
