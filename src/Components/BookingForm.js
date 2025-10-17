@@ -28,6 +28,22 @@ const BookingForm = ({
   const [formData, setFormData] = useState(initialFormData);
   const [updatedFormData, setUpdatedFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
+  // const [firstNameErrors, setFirstNameErrors] = useState({
+  //        firstNameRequired: false,
+  //        firstNameFormat: false,
+  // });
+  // const [lastNameErrors, setLastNameErrors] = useState({
+  //        lastNameRequired: false,
+  //        lastNameFormat: false,
+  // });
+  const [phoneNumberErrors, setPhoneNumberErrors] = useState({
+         phoneNumberRequired: false,
+         phoneNumberFormat: false,
+  });
+  const [emailAddressErrors, setEmailAddressErrors] = useState({
+         emailAddressRequired: false,
+         emailAddressFormat: false,
+  });
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -42,55 +58,98 @@ const BookingForm = ({
     setErrors({});
   };
 
-  // Step 1: Create a reusable validation function
+  // Create a reusable validation function
   const validateField = (name, value, allData) => {
     let error = '';
-    // Basic validation for required fields
+    // Validation for required name fields
     if (['firstName', 'lastName'].includes(name) && value.trim() === '') {
-      error = `${name} is required`;
+      if (name === 'firstName') {
+        error = `First name is required`;
+      } else if (name === 'lastName') {
+        error = `Last name is required`;
+      } else {
+        error = '';
+      }
+    } 
+    // Validation for incorrect name formats
+    else if (['firstName', 'lastName'].includes(name) && value.trim() !== '') {
+      if (name === 'firstName' && !/^[A-Za-z\s-]+$/.test(value)) {
+        error = `First name is invalid`;
+      } else if (name === 'lastName' && !/^[A-Za-z\s-]+$/.test(value)) {
+        error = `Last name is invalid`;
+      } else {
+        error = '';
+      }
     }
-    // Conditional validation based on contactMethod - Old
-    // else if (name === 'phoneNumber' || name === 'emailAddress' || name === 'contactMethod') {
-    //   const currentContactMethod = name === 'contactMethod' ? value : allData.contactMethod;
-    //   const currentPhoneNumber = name === 'phoneNumber' ? value : allData.phoneNumber;
-    //   const currentEmailAddress = name === 'emailAddress' ? value : allData.emailAddress;
-
-    //   if (currentContactMethod === 'phone' && currentPhoneNumber.trim() === '') {
-    //     if (name === 'phoneNumber') error = 'Phone number is required';
-    //   } else if (currentContactMethod === 'email') {
-    //     if (currentEmailAddress.trim() === '') {
-    //       if (name === 'emailAddress') error = 'Email address is required';
-    //     } else if (!/\S+@\S+\.\S+/.test(currentEmailAddress)) {
-    //       if (name === 'emailAddress') error = 'Email address is invalid.';
-    //     }
-    //   }
-    // }
 
     // Conditional validation based on the currently selected contactMethod - New
     const { contactMethod, phoneNumber, emailAddress } = allData;
 
-    if (name === 'phoneNumber' && contactMethod === 'phone' && phoneNumber.trim() === '') {
-      error = 'Phone number is required';
+    if (name === 'phoneNumber' && contactMethod === 'phone') {
+      if (phoneNumber.trim() === '') {
+        error = 'Phone number is required';
+        setPhoneNumberErrors((prevErrors) => ({
+          ...prevErrors,
+          phoneNumberRequired: true,
+        }));
+      } else if (!/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(phoneNumber)) {
+        error = 'Phone number is invalid';
+        setPhoneNumberErrors((prevErrors) => ({
+          ...prevErrors,
+          phoneNumberFormat: true,
+        }));
+      } 
+      else {
+        error = '';
+      }
     } else if (name === 'emailAddress' && contactMethod === 'email') {
       if (emailAddress.trim() === '') {
         error = 'Email address is required';
-      } else if (!/\S+@\S+\.\S+/.test(emailAddress)) {
-        error = 'Email address is invalid.';
+        setEmailAddressErrors((prevErrors) => ({
+          ...prevErrors,
+          emailAddressRequired: true,
+        }));
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress)) {
+        error = 'Email address is invalid';
+        setEmailAddressErrors((prevErrors) => ({
+          ...prevErrors,
+          emailAddressFormat: true,
+        }));
+      } 
+      else {
+        error = '';
       }
     }
+
+    if (name === 'emailAddress' && value.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && contactMethod === 'phone') {
+      error = 'Email address is invalid';
+      setEmailAddressErrors((prevErrors) => ({
+        ...prevErrors,
+        emailAddressFormat: true,
+      }));
+    }
+    
+    if (name === 'phoneNumber' && value.trim() !== '' && !/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(value) && contactMethod === 'email') {
+      error = 'Phone number is invalid';
+      setPhoneNumberErrors((prevErrors) => ({
+        ...prevErrors,
+        phoneNumberFormat: true,
+      }));
+    }
+
+    // if (name === 'emailAddress' && value.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    //   error = 'Email address is invalid';
+    // }
+    
+    // if (name === 'phoneNumber' && value.trim() !== '' && !/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(value)) {
+    //   error = 'Phone number is invalid';
+    // }
 
     return error;
   };
 
   // Step 2: Implement a new handleBlur function
   const handleBlur = (e) => {
-    // Method - Old
-    // const { name, value } = e.target;
-    // const error = validateField(name, value, formData);
-    // setErrors((prevErrors) => ({
-    //   ...prevErrors,
-    //   [name]: error,
-    // }));
 
     // Method - New
     const { name, value } = e.target;
@@ -103,25 +162,61 @@ const BookingForm = ({
     const error = validateField(name, value, currentData);
     newErrors[name] = error;
 
-    // 3. Conditionally re-validate the contact fields only if the blur event occurred on one of them.
-    // This prevents the error from appearing immediately after selecting a radio button.
-    if (name === 'phoneNumber' && currentData.contactMethod === 'phone') {
-      const phoneError = validateField('phoneNumber', currentData.phoneNumber, currentData);
-      newErrors.phoneNumber = phoneError;
-    } else if (name === 'emailAddress' && currentData.contactMethod === 'email') {
-      const emailError = validateField('emailAddress', currentData.emailAddress, currentData);
-      newErrors.emailAddress = emailError;
+    // 3. After blur, re-evaluate the other contact method's required status if the blurred field was a contact field
+    // if (name === 'phoneNumber' || name === 'emailAddress') {
+    //   // Check required status for the currently selected contact method
+    //   const contactMethod = currentData.contactMethod;
+    //   if (contactMethod === 'phone') {
+    //     newErrors.phoneNumber = validateField('phoneNumber', currentData.phoneNumber, currentData);
+    //     newErrors.emailAddress = ''; // Clear error for the unselected contact method
+    //   } else if (contactMethod === 'email') {
+    //     newErrors.emailAddress = validateField('emailAddress', currentData.emailAddress, currentData);
+    //     newErrors.phoneNumber = ''; // Clear error for the unselected contact method
+    //   }
+    // }
+
+    const contactMethod = currentData.contactMethod;
+    const phoneRegex = /^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Check for phoneNumber required error (only if contactMethod is 'phone')
+    if (contactMethod === 'phone' && name === 'phoneNumber' && !value.trim()) {
+      setPhoneNumberErrors((prevErrors) => ({
+        ...prevErrors,
+        phoneNumberRequired: true,
+      }));
+      newErrors.phoneNumber = validateField('phoneNumber', currentData.phoneNumber, currentData);
+      newErrors.emailAddress = ''; // Clear error for the unselected contact method
+    }
+    
+    // Check for phoneNumber format error (if a value is present and the format is invalid)
+    if (name === 'phoneNumber' && value.trim() && !phoneRegex.test(value)) {
+      setPhoneNumberErrors((prevErrors) => ({
+        ...prevErrors,
+        phoneNumberFormat: true,
+      }));
+      newErrors.phoneNumber = validateField('phoneNumber', currentData.phoneNumber, currentData);
     }
 
-    // 4. If the contactMethod is changed, and the user hasn't blurred the conditional field yet,
-    // we should clear the error for the field that is no longer required.
-    if (name === 'contactMethod') {
-      if (currentData.contactMethod === 'phone') {
-        newErrors.emailAddress = ''; // Clear email error if phone is selected
-      } else if (currentData.contactMethod === 'email') {
-        newErrors.phoneNumber = ''; // Clear phone error if email is selected
-      }
+    // Check for emailAddress required error (only if contactMethod is 'email')
+    if (contactMethod === 'email' && name === 'emailAddress' && !value.trim()) {
+      setEmailAddressErrors((prevErrors) => ({
+        ...prevErrors,
+        emailAddressRequired: true,
+      }));
+      newErrors.emailAddress = validateField('emailAddress', currentData.emailAddress, currentData);
+      newErrors.phoneNumber = ''; // Clear error for the unselected contact method
     }
+    
+    // Check for emailAddress format error (if a value is present and the format is invalid)
+    if (name === 'emailAddress' && value.trim() && !emailRegex.test(value)) {
+      setEmailAddressErrors((prevErrors) => ({
+        ...prevErrors,
+        emailAddressFormat: true,
+      }));
+      newErrors.emailAddress = validateField('emailAddress', currentData.emailAddress, currentData);
+    }
+
 
     setErrors(newErrors);
 
@@ -138,21 +233,101 @@ const BookingForm = ({
       [name]: value,
     }));
 
-    // For clearing the error as the user types
-    if (errors[name]) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: '',
-      }));
-    }
+    const currentData = { ...formData, [name]: value };
+
+    // Update errors for real-time format validation
+    setErrors((prevErrors) => {
+      const error = validateField(name, value, currentData);
+      const newErrors = { ...prevErrors };
+
+      newErrors[name] = error;
+      
+      // Real-time email validation
+      if (name === 'emailAddress') {
+        if (value.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          setEmailAddressErrors((prevErrors) => ({
+            ...prevErrors,
+            emailAddressFormat: true,
+          }));
+          newErrors.emailAddress = 'Email address is invalid';
+        } else {
+          setEmailAddressErrors((prevErrors) => ({
+            ...prevErrors,
+            emailAddressFormat: false,
+          }));
+          newErrors.emailAddress = '';
+        }
+      }
+      // Real-time phone number validation
+      else if (name === 'phoneNumber') {
+        if (value.trim() !== '' && !/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(value)) {
+        setPhoneNumberErrors((prevErrors) => ({
+          ...prevErrors,
+          phoneNumberFormat: true,
+        }));
+          newErrors.phoneNumber = 'Phone number is invalid';
+        } else {
+          setPhoneNumberErrors((prevErrors) => ({
+            ...prevErrors,
+            phoneNumberFormat: false,
+          }));
+          newErrors.phoneNumber = '';
+        }
+      }
+
+      // Real-time first name validation
+      else if (name === 'firstName') {
+        newErrors.firstName = (value.trim() !== '' && !/^[a-zA-Z ]*$/.test(value))
+          ? 'First name is invalid'
+          : '';
+      }
+
+      // Real-time last name validation
+      else if (name === 'lastName') {
+        newErrors.lastName = (value.trim() !== '' && !/^[a-zA-Z ]*$/.test(value))
+          ? 'Last name is invalid'
+          : '';
+      }
+
+      // Real-time email format error validation in non-required emailAddress or phoneNumber input fields
+      // if (name === 'emailAddress' && value.trim() !== '' && !/\S+@\S+\.\S+/.test(value) && currentData.contactMethod === 'phone') {
+      //   newErrors.emailAddress = 'Email address is invalid'
+      // } else if (name === 'phoneNumber' && value.trim() !== '' && !/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(value) && currentData.contactMethod === 'email') {
+      //   newErrors.phoneNumber = 'Phone number is invalid'
+      // }
+
+      // Clear error for other fields on typing
+      // else if (newErrors[name]) {
+      //   newErrors[name] = '';
+      // }
+      // Clear the error for the other contact method if contactMethod changes
+      // if (name === 'contactMethod') {
+      //   if (value === 'phone') {
+      //     newErrors.emailAddress = '';
+      //   } else {
+      //     newErrors.phoneNumber = '';
+      //   }
+      // }
+      return newErrors;
+    });
+    
   };
 
+  // Handle events when the user submits the submission type button
   const handleSubmit = async (e) => {
+    // Prevent the default browser submission behavior
     e.preventDefault();
+    const { name, value } = e.target;
+    const phoneRegex = /^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     // Re-validate all fields before submission
+
+    // Initiate the variables
     let formIsValid = true;
     const newErrors = {};
 
+    // Re-validate the first and last names before submission
     ['firstName', 'lastName'].forEach((field) => {
       const error = validateField(field, formData[field], formData);
       if (error) {
@@ -161,20 +336,100 @@ const BookingForm = ({
       }
     });
 
-    if (formData.contactMethod === 'phone') {
+    // Check for phoneNumber required error (only if contactMethod is 'phone')
+    if (formData.contactMethod === 'phone' && name === 'phoneNumber' && !value.trim()) {
       const error = validateField('phoneNumber', formData.phoneNumber, formData);
       if (error) {
+        setPhoneNumberErrors((prevErrors) => ({
+          ...prevErrors,
+          phoneNumberRequired: true,
+        }));
+        formIsValid = false;
         newErrors.phoneNumber = error;
-        formIsValid = false;
+        newErrors.emailAddress = ''; // Clear error for the unselected contact method
       }
-    } else if (formData.contactMethod === 'email') {
-      const error = validateField('emailAddress', formData.emailAddress, formData);
+    }
+    
+    // Check for phoneNumber format error (if a value is present and the format is invalid)
+    if (name === 'phoneNumber' && value.trim() && !phoneRegex.test(value)) {
+      const error = validateField('phoneNumber', formData.phoneNumber, formData);
       if (error) {
-        newErrors.emailAddress = error;
+        setPhoneNumberErrors((prevErrors) => ({
+          ...prevErrors,
+          phoneNumberFormat: true,
+        }));
         formIsValid = false;
+        newErrors.phoneNumber = error;
       }
     }
 
+    // Check for emailAddress required error (only if contactMethod is 'email')
+    if (formData.contactMethod === 'email' && name === 'emailAddress' && !value.trim()) {
+      const error = validateField('emailAddress', formData.emailAddress, formData);
+      if (error) {
+        setEmailAddressErrors((prevErrors) => ({
+          ...prevErrors,
+          emailAddressRequired: true,
+        }));
+        formIsValid = false;
+        newErrors.emailAddress = error;
+        newErrors.phoneNumber = ''; // Clear error for the unselected contact method
+      }
+    }
+    
+    // Check for emailAddress format error (if a value is present and the format is invalid)
+    if (name === 'emailAddress' && value.trim() && !emailRegex.test(value)) {
+      const error = validateField('emailAddress', formData.emailAddress, formData);
+      if (error) {
+        setEmailAddressErrors((prevErrors) => ({
+          ...prevErrors,
+          emailAddressFormat: true,
+        }));
+        formIsValid = false;
+        newErrors.emailAddress = error;
+      }
+    }
+
+    // Re-validate the phone and email contact method option before submission
+    // if (formData.contactMethod === 'phone' || formData.contactMethod === 'email') {
+    //   const phoneError = validateField('phoneNumber', formData.phoneNumber, formData);
+    //   const emailError = validateField('emailAddress', formData.emailAddress, formData);
+    //   if (phoneError || emailError) {
+    //     newErrors.phoneNumber = phoneError;
+    //     newErrors.emailAddress = emailError;
+    //     formIsValid = false;
+    //   }
+    // } 
+
+    // Re-validate upon the submission according to the user's contact method selection
+    // validateField function validates all possible errors of the required & format error
+    // for each input field of the phoneNumber and emailAddress
+    if (formData.contactMethod === 'phone') {
+      const phoneError = validateField('phoneNumber', formData.phoneNumber, formData);
+      const emailError = validateField('emailAddress', formData.emailAddress, formData);
+      if (phoneError) {
+        newErrors.phoneNumber = phoneError;
+        formIsValid = false;
+      }
+      if (emailError) {
+        newErrors.emailAddress = emailError;
+        formIsValid = false;
+      }
+    } 
+    else if (formData.contactMethod === 'email') {
+      const emailError = validateField('emailAddress', formData.emailAddress, formData);
+      const phoneError = validateField('phoneNumber', formData.phoneNumber, formData);
+      if (emailError) {
+        newErrors.emailAddress = emailError;
+        formIsValid = false;
+      }
+      if (phoneError) {
+        newErrors.phoneNumber = phoneError;
+        formIsValid = false;
+      }
+    } 
+
+    // Re-validate the parent's dateError and timeError props before submission
     if (dateError) {
       newErrors.resDate = dateError;
       formIsValid = false;
@@ -184,8 +439,11 @@ const BookingForm = ({
       formIsValid = false;
     }
 
+    // If there's any new errors during this submission event hanlder click, put new errors in the global errors/setErrors useState hook
     setErrors(newErrors);
 
+    // If the form is valid, then display the success message in the console.log
+    // Then, update the global 'formData' useState hook variable combining the resData, resTime props from the parent component
     if (formIsValid) {
       console.log('Form submitted with data:', {
         resDate: resDate,
@@ -197,6 +455,7 @@ const BookingForm = ({
         resTime: resTime,
         ...formData,
       });
+        // Then, check the web API to display the confirmation modal
         try {
           const response = await submitAPI(formData);
           if(response === true) {
@@ -214,28 +473,18 @@ const BookingForm = ({
             console.error('API submission failed:', response);
             alert('Form submission failed. Please try again.');
           }
+        // If the web API returns false, then perform below
         } catch (error) {
             // Handle actual network or server errors
             console.error('Form submission error:', error);
             alert('An error occurred. Please try again later.');
         }
+    // If the form is not valid, display error message through the console.log and alert screen    
     } else {
       console.log('Form has errors:', newErrors);
       alert('Please correct the errors in the form.');
     }
   };
-  // Let the confirmation model disappear in certain time
-  // useEffect(() => {
-  //   let timer;
-  //   if (showConfirmationModal && shouldRedirect) {
-  //     timer = setTimeout(() => {
-  //       setShowSuccessModal(false);
-  //       // Redirect to the success page
-  //       navigate('/confirmation'); 
-  //     }, 21000); // Modal disappears after 3 seconds
-  //   }
-  //   return () => clearTimeout(timer); // Cleanup the timer
-  // }, [showSuccessModal, shouldRedirect, navigate]);
 
   // Let the success model disappear in certain time
   useEffect(() => {
@@ -250,6 +499,9 @@ const BookingForm = ({
     return () => clearTimeout(timer); // Cleanup the timer
   }, [showSuccessModal, shouldRedirect, navigate]);
 
+  // Checking if all mandatory fields are filled
+  // Based on the return result of this function as 'true' or 'false',
+  // it renders the 'Confirm reservation' button's CSS styles in the main return function's JSX area
   const areAllFieldsFilled = (e) => {
     // Define which fields are considered mandatory for submission
     const mandatoryFields = [
@@ -257,6 +509,24 @@ const BookingForm = ({
         'lastName',
         'contactMethod',
     ];
+
+    const isValidFirstName = (firstName) => {
+    // Regex to check for a basic first name format: characters
+    const firstNameRegex = /^[a-zA-Z ]*$/;
+    return firstNameRegex.test(firstName);
+    };
+
+    const isValidLastName = (lastName) => {
+    // Regex to check for a basic last name format: characters
+    const lastNameRegex = /^[a-zA-Z ]*$/;
+    return lastNameRegex.test(lastName);
+    };
+
+    const isValidPhone = (phone) => {
+    // Regex to check for a basic phone format: number + 10 digits
+    const phoneRegex = /^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/;
+    return phoneRegex.test(phone);
+    };
 
     const isValidEmail = (email) => {
     // Regex to check for a basic email format (user@domain.tld)
@@ -274,23 +544,71 @@ const BookingForm = ({
 
     // Check if all mandatory fields are filled
     for (const field of mandatoryFields) {
+        // if (!isValidPhone) {
+        //   return false;
+        // } else if (!isValidEmail) {
+        //   return false;
+        // }
+
         if (typeof formData[field] === 'string' && formData[field].trim() === '') {
             console.error(`Error: The mandatory field '${field}' is empty.`);
             return false; // A mandatory string field is empty
         }
+    }
+
+    // Validate first name's format outside of the mandatory field loop
+    if (formData.firstName && formData.firstName.trim() !== '' && !isValidFirstName(formData.firstName)) {
+      console.error(`Error: The first name '${formData.firstName}' is not a valid format.`);
+      return false;
+    }
+
+    // Validate last name's format outside of the mandatory field loop
+    if (formData.lastName && formData.lastName.trim() !== '' && !isValidLastName(formData.lastName)) {
+      console.error(`Error: The last name '${formData.lastName}' is not a valid format.`);
+      return false;
+    }
+
+    // Validate phone number if it exists, regardless of whether it's mandatory
+    if (formData.phoneNumber && formData.phoneNumber.trim() !== '' && !isValidPhone(formData.phoneNumber)) {
+      console.error(`Error: The phone number '${formData.phoneNumber}' is not a valid format.`);
+      return false;
+    }
+
+    // Validate email address if it exists, regardless of whether it's mandatory
+    if (formData.emailAddress && formData.emailAddress.trim() !== '' && !isValidEmail(formData.emailAddress)) {
+      console.error(`Error: The email address '${formData.emailAddress}' is not a valid format.`);
+      return false;
+    }
+
         // You might also want to check for other types of empty values if applicable,
         // e.g., if (formData[field] === null || formData[field] === undefined)
 
-        // Special validation for emailAddress if it is a mandatory field
-        if (field === 'emailAddress' && !isValidEmail(formData[field])) {
-        console.error(`Error: The email address '${formData[field]}' is not a valid format.`);
-        return false; // Email address is not in a valid format
-        }
-    }
+        // // Special validation for phoneNumber if it is a mandatory field
+        // if (field === 'phoneNumber' && !isValidPhone(formData[field])) {
+        // console.error(`Error: The phone number '${formData[field]}' is not a valid format.`);
+        // return false; // phone number is not in a valid format
+        // }
+
+        // if (field === 'phoneNumber' && !isValidPhone(formData[field]) && formData.contactMethod === 'email') {
+        // console.error(`Error: The phone number '${formData[field]}' is not a valid format.`);
+        // return false; // phone number is not in a valid format
+        // }
+
+        // // Special validation for emailAddress if it is a mandatory field
+        // if (field === 'emailAddress' && !isValidEmail(formData[field])) {
+        // console.error(`Error: The email address '${formData[field]}' is not a valid format.`);
+        // return false; // Email address is not in a valid format
+        // }
+
+        // if (field === 'emailAddress' && !isValidEmail(formData[field]) && formData.contactMethod === 'phone') {
+        // console.error(`Error: The email address '${formData[field]}' is not a valid format.`);
+        // return false; // Email address is not in a valid format
+        // }
 
     return true; // All mandatory fields are filled
 };
 
+// Trigger this event handler when the Cancel button is clicked on the booking form
 const handleCancelClick = () => {
   // Do not show the confirmation modal
   setShowConfirmationModal(false);
@@ -298,6 +616,7 @@ const handleCancelClick = () => {
   resetForm();
 }
 
+// Trigger this event handler when the Confirm button is clicked on the confirmation modal
 const handleConfirmClick = () => {
   // Close the confirmation modal
   setShowConfirmationModal(false);
@@ -305,6 +624,7 @@ const handleConfirmClick = () => {
   setShowSuccessModal(true);
 };
 
+// Trigger this event handler when the Ok button is clicked on the success modal
 const handleOkClick = () => {
   // Close the success modal
   setShowSuccessModal(false);
@@ -315,8 +635,9 @@ const handleOkClick = () => {
   navigate('/confirmation/reservation');
 };
 
+// Convert camelCase or kebab-case labels to a human-readable string
+// This function re-formats the data that is displayed on the Confirmation modal
 const formatLabel = (key) => {
-  // Convert camelCase or kebab-case to a human-readable string
   return key
     .replace(/-/g, ' ') // Replace dashes with spaces
     .replace(/([A-Z])/g, ' $1') // Add space before capital letters
@@ -325,6 +646,7 @@ const formatLabel = (key) => {
 
 return (
         <>
+            {/*When the button type set up as the 'button' is clicked, this 'handleSubmnit' event handler is triggered*/}
             <form className={className} onSubmit={handleSubmit}>
                 <fieldset className="fieldsets fieldset-reservationDetails">
                     <legend className="legends legend-reservationDetails">Reservation details</legend>
@@ -349,7 +671,8 @@ return (
                             <input type="date" 
                                    id={bookingFormId + '-res-date'} 
                                    name="resDate"
-                                   value={resDate} // Bind value to the prop
+                                   // Bind value with the 'resDate' prop which was handed down from the parent component
+                                   value={resDate} 
                                    onChange={handleDateChange}
                                    min={minDate}
                                    aria-describedby={bookingFormId + '-res-date-desc'}
@@ -363,7 +686,8 @@ return (
                             <label htmlFor={bookingFormId + '-res-time'}>Reservation time</label>
                             <select id={bookingFormId + '-res-time'}
                                     name="resTime"
-                                    value={resTime}
+                                    // Bind value with the 'resTime' prop which was handed down from the parent component
+                                    value={resTime} 
                                     onChange={handleTimeChange}
                                     aria-describedby={bookingFormId + '-res-time-desc'}
                             >
@@ -415,11 +739,13 @@ return (
                                    id={bookingFormId + '-first-name'} 
                                    name="firstName"
                                    value={formData.firstName}
+                                  //  pattern="^[A-Za-z\s-]+$"
                                    onChange={handleChange}
                                    onBlur={handleBlur}
                                    aria-describedby={bookingFormId + '-first-name-desc'}
+                                  //  required
                             />
-                            {errors.firstName && <p style={{ color: 'red' }}>{errors.firstName}</p>}
+                            {errors.firstName && <p style={{ color: 'red' }} className="errorTexts">{errors.firstName}</p>}
                             <span id={bookingFormId + '-first-name-desc'} 
                                   className="assistiveTexts">(Required) Enter customer first name
                             </span>
@@ -431,11 +757,13 @@ return (
                                    id={bookingFormId + '-last-name'} 
                                    name="lastName"
                                    value={formData.lastName}
+                                  //  pattern="^[A-Za-z\s-]+$"
                                    onChange={handleChange} 
                                    onBlur={handleBlur}
                                    aria-describedby={bookingFormId + '-last-name-desc'}
+                                  //  required
                             />
-                            {errors.lastName && <p style={{ color: 'red' }}>{errors.lastName}</p>}
+                            {errors.lastName && <p style={{ color: 'red' }} className="errorTexts">{errors.lastName}</p>}
                             <span id={bookingFormId + '-last-name-desc'} 
                                   className="assistiveTexts">(Required) Enter customer last name
                             </span>
@@ -486,12 +814,19 @@ return (
                                    id={bookingFormId + '-phone-number'} 
                                    name="phoneNumber" 
                                    value={formData.phoneNumber}
+                                   // This pattern attribute validates the client side phone number input value
+                                   pattern="^\d{3}-?\d{3}-?\d{4}$"
+                                  //  pattern="^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$"
                                    placeholder={'For example, 123-456-7890'} 
                                    onChange={handleChange} 
                                    onBlur={handleBlur}
                                    aria-describedby={formData.contactMethod === 'phone' ? bookingFormId + '-phone-number-desc' : undefined} 
                             />
-                            {errors.phoneNumber && formData.contactMethod === 'phone' && (<p style={{ color: 'red' }}>{errors.phoneNumber}</p>)}
+                            {/*Display the phoneNumber required error message when the contact method is phone and the value is empty*/}
+                            {phoneNumberErrors.phoneNumberRequired && !phoneNumberErrors.phoneNumberFormat && formData.contactMethod === 'phone' && (<p style={{ color: 'red' }} className="errorTexts">{errors.phoneNumber}</p>)}
+                            {/*Display the phoneNumber format error message when the value is incorrect phone number format*/}
+                            {phoneNumberErrors.phoneNumberFormat && formData.phoneNumber !== '' && (<p style={{ color: 'red' }} className="errorTexts">{errors.phoneNumber}</p>)}
+                            {/*When the contact method is phone, then display the phone number assistive text saying the phone number is required*/}
                             {formData.contactMethod === 'phone' ? (
                                 <span id={bookingFormId + '-phone-number-desc'} 
                                       className="assistiveTexts">(Required) Enter customer phone
@@ -508,12 +843,17 @@ return (
                                    id={bookingFormId + '-email-address'} 
                                    name="emailAddress" 
                                    value={formData.emailAddress} 
+                                   pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                                    placeholder={'For example, me@myemail.com'} 
                                    onChange={handleChange}
                                    onBlur={handleBlur}
                                    aria-describedby={formData.contactMethod === 'email' ? bookingFormId + '-email-address-desc' : undefined} 
                             />
-                            {errors.emailAddress && formData.contactMethod === 'email' && (<p style={{ color: 'red' }}>{errors.emailAddress}</p>)}
+                            {/*Display the emailAddress required error message when the contact method is email and the value is empty*/}
+                            {emailAddressErrors.emailAddressRequired && !emailAddressErrors.emailAddressFormat &&formData.contactMethod === 'email' && (<p style={{ color: 'red' }} className="errorTexts">{errors.emailAddress}</p>)}
+                            {/*Display the emailAddress format error message when the value is incorrect email format*/}
+                            {emailAddressErrors.emailAddressFormat && formData.emailAddress !== '' && (<p style={{ color: 'red' }} className="errorTexts">{errors.emailAddress}</p>)}
+                            {/*When the contact method is email, then display the email address assistive text saying the email address is required*/}
                             {formData.contactMethod === 'email' ? (
                                 <span id={bookingFormId + '-email-address-desc'} 
                                       className="assistiveTexts">(Required) Enter customer email
@@ -539,6 +879,7 @@ return (
                         </li>
                     </ul>
                 </fieldset>
+                {/*Booking form's Cancel and Confirm reservation buttons*/}
                 <div role="group" aria-label="Button group label" className="buttonGroup">
                     <button type="button" className="buttons buttonCancel" onClick={handleCancelClick}>Cancel</button>
                     <button type="submit" 
@@ -548,6 +889,7 @@ return (
                         Confirm reservation
                     </button>
                 </div>
+                {/*Show confirmation modal if it is set up as true*/}
                 {showConfirmationModal && (
                     <dialog id="confirmationModal" 
                             className="modal"
@@ -566,6 +908,7 @@ return (
                             <h2 id="confirmation-modal-title">Confirm your reservation</h2>
                             <div>
                               <h3 id="user-form-input-title">Your Input:</h3>
+                              {/*Get the form data and convert to a formatted data and display*/}
                               <div className="form-data-row">
                                 {Object.entries(updatedFormData).map(([key, value]) => (
                                   <div key={key} className="form-data-item">
@@ -590,6 +933,7 @@ return (
                         </div>
                     </dialog>
                 )}
+                {/*Show success modal if it is set up as true*/}
                 {showSuccessModal && (
                     <dialog id="successModal" 
                             className="modal"
@@ -621,4 +965,3 @@ return (
 };
 
 export default BookingForm; 
-

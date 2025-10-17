@@ -215,6 +215,10 @@ input::placeholder {
   color: rgb(135, 135, 135); /* Text color of selected text */
 }
 
+.errorTexts {
+  font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
 textarea {
   height: 80px;
   font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -255,6 +259,7 @@ textarea::selection {
 
 .buttons {
 height: 48px;
+font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 .buttonCancel {
