@@ -3,6 +3,7 @@ import './BookingPage.css';
 import BookingForm from './BookingForm';
 import ViewMyReservationForm from './ViewMyReservationForm';
 import {fetchAPI, submitAPI} from '../API/WebAPI';
+import { useSearchParams } from 'react-router-dom'
 
 export const initialTimes = ['17:00', '18:00', '19:00', '20:00', '21:00'];
 
@@ -47,8 +48,8 @@ const formatDate = (date) => {
 };
 
 const BookingPage = (tabs) => {
-    // State to track active tab
-    const [activeTab, setActiveTab] = useState('tab1');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const activeTab = searchParams.get('tab') || 'reserve-a-table';
 
     // For styling
     const bookingBgClass = 'bg-container_bookingPage';
@@ -57,9 +58,8 @@ const BookingPage = (tabs) => {
     const viewFormClass = 'form-container_viewMyReservationForm';
 
     // Toggle tab visibility
-    const handleTabClick = (tab) => {
-        // setActiveTab(activeTab === tab ? null : tab);
-        setActiveTab(tab);
+    const handleTabClick = (tabName) => {
+        setSearchParams({tab: tabName});
     }
 
     // useReducer hook: 
@@ -107,7 +107,6 @@ const BookingPage = (tabs) => {
         // (2) and data from fetched available times(newTimes) based on the date selection
         // (3) sends these actions of (1), (2) to the updateTimes reducer
         dispatch({ type: 'SET_TIMES', payload: newTimes });
-        
     };
 
     // Handler for time changes and validation
@@ -162,16 +161,16 @@ const BookingPage = (tabs) => {
             <section className={bookingContentClass}>
                 <ul className="tabs-container" role="tablist">
                         <li
-                            className={`tab-button ${activeTab === 'tab1' ? 'active' : ''}`}
-                            onClick={() => handleTabClick('tab1')}
+                            className={`tab-button ${activeTab === 'reserve-a-table' ? 'active' : ''}`}
+                            onClick={() => handleTabClick('reserve-a-table')}
                             role="tab"
                             id="reservations-title"
                         >
                             Reserve a Table
                         </li>
                         <li
-                            className={`tab-button ${activeTab === 'tab2' ? 'active' : ''}`}
-                            onClick={() => handleTabClick('tab2')}
+                            className={`tab-button ${activeTab === 'view-my-reservation' ? 'active' : ''}`}
+                            onClick={() => handleTabClick('view-my-reservation')}
                             role="tab"
                             id="view-reservation-title"
                         >
@@ -182,7 +181,7 @@ const BookingPage = (tabs) => {
                     {/* <div className={`tab-content ${activeTab === 'tab1' ? 'visible' : ''}`}> */}
                         {/* Content for Tab 1 goes here */}
                         {/* <h1 id="reservations-title">Reserve a Table</h1> */}
-                    {activeTab === 'tab1' && (
+                    {activeTab === 'reserve-a-table' && (
                         <div className="tab-content">
                             <BookingForm 
                                 className={formClass} 
@@ -201,7 +200,7 @@ const BookingPage = (tabs) => {
                     {/* Content for Tab 2 goes here */}
                     {/* <div className={`tab-content ${activeTab === 'tab2' ? 'visible' : ''}`}> */}
                     {/* <h1 id="view-reservation-title">View My Reservation</h1> */}
-                    {activeTab === 'tab2' && (
+                    {activeTab === 'view-my-reservation' && (
                         <div className="tab-content">
                             <ViewMyReservationForm 
                                 className={viewFormClass}

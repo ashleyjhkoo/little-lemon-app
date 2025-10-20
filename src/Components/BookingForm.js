@@ -647,7 +647,7 @@ const formatLabel = (key) => {
 return (
         <>
             {/*When the button type set up as the 'button' is clicked, this 'handleSubmnit' event handler is triggered*/}
-            <form className={className} onSubmit={handleSubmit}>
+            <form className={className} onSubmit={handleSubmit} aria-label="my booking form">
                 <fieldset className="fieldsets fieldset-reservationDetails">
                     <legend className="legends legend-reservationDetails">Reservation details</legend>
                     <ul className="uls ul-reservationDetails">
@@ -885,6 +885,7 @@ return (
                     <button type="submit" 
                             className="buttons buttonConfirmReservation"
                             style={{ backgroundColor: areAllFieldsFilled() ? '#495E57' : '#D0D0D0' , color: areAllFieldsFilled() ? '#ffffffff' : '#000000ff'}}
+                            aria-label="Confirm reservation"
                     >
                         Confirm reservation
                     </button>

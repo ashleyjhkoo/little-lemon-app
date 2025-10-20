@@ -15,12 +15,12 @@ function App() {
   return (
     // <Provider>
     <div>
-      <Header className={navClass} />
-      <main>
-        <Outlet /> {/* This is the dynamin body content will be rendered */}
-      </main>
-      {/* <Main /> This was used before I applied the React Router nav menu items. */}
-      <Footer className={footerClass} />
+        <Header className={navClass} />
+        <main>
+          <Outlet /> {/* This is the dynamin body content will be rendered */}
+        </main>
+        {/* <Main /> This was used before I applied the React Router nav menu items. */}
+        <Footer className={footerClass} />
     </div>
     // </Provider>
   )

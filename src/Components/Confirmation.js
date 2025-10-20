@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import './Confirmation.css';
 import congratulationImage from '../Assets/Congratulation.png';
 import seeYouNextTimeImage from '../Assets/SeeYouNextTime.png';
+import { NavLink, Link } from 'react-router-dom';
 
 
 const Confirmation = () => {
@@ -23,8 +24,8 @@ const Confirmation = () => {
                         <li className="listDescription"><p>You successfully reserved your table. Your confirmation number is below:</p></li>
                         <li className="listNumber"><p>#123J782015</p></li>
                         <li className="listButtons">
-                            <button className="listButton viewMyReservationButton">View my reservation</button>
-                            <button className="listButton homeButton">Home</button>
+                            <button className="listButton viewMyReservationButton"><Link to="/bookingpage?tab=view-my-reservation">View my reservation</Link></button>
+                            <button className="listButton homeButton"><NavLink to="/">Home</NavLink></button>
                         </li>
                     </ul>
                 );
@@ -36,8 +37,8 @@ const Confirmation = () => {
                         <li className="listDescription"><p>You successfully updated your reservation on this confirmation number:</p></li>
                         <li className="listNumber"><p>#123J782015</p></li>
                         <li className="listButtons">
-                            <button className="listButton viewMyReservationButton">View my reservation</button>
-                            <button className="listButton homeButton">Home</button>
+                            <button className="listButton viewMyReservationButton"><Link to="/bookingpage?tab=view-my-reservation">View my reservation</Link></button>
+                            <button className="listButton homeButton"><NavLink to="/">Home</NavLink></button>
                         </li>
                     </ul>
                 );
@@ -50,7 +51,7 @@ const Confirmation = () => {
                         <li className="listNumber"><p>#123J782015</p></li>
                         <li className="listButtons">
                             <button className="listButton reserveATableButton">Reserve a table</button>
-                            <button className="listButton homeButton">Home</button>
+                            <button className="listButton homeButton"><NavLink to="/">Home</NavLink></button>
                         </li>
                     </ul>
                 );
@@ -62,8 +63,8 @@ const Confirmation = () => {
                         <li className="listDescription"><p>You successfully reserved your table. Your confirmation number is below:</p></li>
                         <li className="listNumber"><p>#123J782015</p></li>
                         <li className="listButtons">
-                            <button className="listButton viewMyReservationButton">View my reservation</button>
-                            <button className="listButton homeButton">Home</button>
+                            <button className="listButton viewMyReservationButton"><Link to="/bookingpage?tab=view-my-reservation">View my reservation</Link></button>
+                            <button className="listButton homeButton"><NavLink to="/">Home</NavLink></button>
                         </li>
                     </ul>
                 );
