@@ -28,7 +28,7 @@
     border: none;
     background-color: #f0f0f0;
     cursor: pointer;
-    border-bottom: 3px solid transparent; /* For active indicator */
+    border-bottom: 2.5px solid transparent; /* For active indicator */
     transition: all 0.3s ease;
 
     font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -44,7 +44,7 @@
 }
 
 .tab-button.active {
-    border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+    border-bottom: 2.5px solid #495E57; /* Green indicator for active tab */
     color: #000; 
 }
 
@@ -113,7 +113,7 @@ h1 {
         border: none;
         background-color: #f0f0f0;
         cursor: pointer;
-        border-bottom: 3px solid transparent; /* For active indicator */
+        border-bottom: 2.5px solid transparent; /* For active indicator */
         transition: all 0.3s ease;
 
         font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -129,7 +129,7 @@ h1 {
     }
 
     .tab-button.active {
-        border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+        border-bottom: 2.5px solid #495E57; /* Green indicator for active tab */
         color: #000; 
     }
     /* #reservations-title {
@@ -175,7 +175,7 @@ h1 {
         border: none;
         background-color: #f0f0f0;
         cursor: pointer;
-        border-bottom: 3px solid transparent; /* For active indicator */
+        border-bottom: 2.5px solid transparent; /* For active indicator */
         transition: all 0.3s ease;
 
         font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -191,7 +191,7 @@ h1 {
     }
 
     .tab-button.active {
-        border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+        border-bottom: 2.5px solid #495E57; /* Green indicator for active tab */
         color: #000; 
     }
 
@@ -237,7 +237,7 @@ h1 {
         border: none;
         background-color: #f0f0f0;
         cursor: pointer;
-        border-bottom: 3px solid transparent; /* For active indicator */
+        border-bottom: 2.5px solid transparent; /* For active indicator */
         transition: all 0.3s ease;
 
         font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -253,7 +253,7 @@ h1 {
     }
 
     .tab-button.active {
-        border-bottom: 3px solid #495E57; /* Green indicator for active tab */
+        border-bottom: 2.5px solid #495E57; /* Green indicator for active tab */
         color: #000; 
     }
 

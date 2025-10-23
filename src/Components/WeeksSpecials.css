@@ -49,6 +49,10 @@
         align-self: center;
         }
 
+        .content-container_weeklySpecials button:hover {
+        background: #f4da5a;
+        }
+
         #weeklySpecials-button {
         color: #000;
         font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;

@@ -78,6 +78,10 @@
         margin-bottom: 20px;
         }
 
+        .content-container_hero > button:hover {
+        background: #f4da5a;
+        }
+
         #hero-button {
         color: #000;
         font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;

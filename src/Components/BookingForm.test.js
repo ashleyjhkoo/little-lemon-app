@@ -279,17 +279,6 @@ describe('BookingForm Validation Functions Test', () => {
     const emailRadioButton = screen.getByRole('radio', { name: /email/i });
     await userEvent.click(emailRadioButton);
     expect(emailRadioButton).toBeChecked(); // Assert the radio is now selected
-
-    // Simulate the form submission with empty required field
-    // const firstNameInput = screen.getByLabelText(/Customer first name/i);
-    // await userEvent.clear(firstNameInput);
-    // // Act
-    // await userEvent.click(screen.getByRole('button', { name: /Confirm reservation/i }));
-    // const form = screen.getByRole('form', { name: 'my booking form' });
-    // // Assert
-    // expect(mockHandleSubmit).not.toHaveBeenCalled();
-    // // Optional: Assert that an error message is displayed
-    // expect(screen.getByText(/First name is required/i)).toBeInTheDocument();
   });
 
   it('invalid state test',async () => {
@@ -305,6 +294,7 @@ describe('BookingForm Validation Functions Test', () => {
     </MemoryRouter>
     );
 
+    // Method 1
     // Simulate invalid phone input
     const phoneNumberInput = screen.getByRole('textbox', { name: /Phone/i });
     await userEvent.type(phoneNumberInput, '123');
@@ -314,18 +304,47 @@ describe('BookingForm Validation Functions Test', () => {
     // Wait for the asynchronous validation to finish and the error message to appear
     await waitFor(() => {
     // Assert that the error message is now present in the document
-    expect(screen.getByText('Phone number is invalid')).toBeInTheDocument();
+    expect(screen.getByText('Phone number is invalid: use the format of 1234567890 or 123-456-7890')).toBeInTheDocument();
     });
 
     // Simulate the form submission with empty required field
     const firstNameInput = screen.getByLabelText(/Customer first name/i);
     await userEvent.clear(firstNameInput);
     // Act
-    await userEvent.click(screen.getByRole('button', { name: /Confirm reservation/i }));
+    const confirmButton = await screen.findByRole('button', { name: /On Click Confirm Reservation/i });
+    await userEvent.click(confirmButton);
     const form = screen.getByRole('form', { name: 'my booking form' });
     // Assert
     expect(mockHandleSubmit).not.toHaveBeenCalled();
     // Optional: Assert that an error message is displayed
     expect(screen.getByText(/First name is required/i)).toBeInTheDocument();
+
+    // Method 2
+    // Assert that onSubmit has not been called initially
+    // expect(mockHandleSubmit).not.toHaveBeenCalled();
+
+    // // Simulate invalid phone input and trigger validation
+    // const phoneNumberInput = screen.getByRole('textbox', { name: /Phone/i });
+    // await user.type(phoneNumberInput, '123');
+    // await user.tab();
+
+    // // Await the asynchronous validation message for the phone number
+    // await screen.findByText('Phone number is invalid: use the format of 1234567890 or 123-456-7890');
+
+    // // Simulate invalid first name input by clearing it
+    // const firstNameInput = screen.getByLabelText(/Customer first name/i);
+    // await user.clear(firstNameInput);
+
+    // // Find and click the submit button. `findByRole` is used because the button
+    // // might be disabled or change state and we need to wait for it.
+    // const confirmButton = await screen.findByRole('button', { name: /On Click Confirm Reservation/i });
+    // await user.click(confirmButton);
+
+    // // Assert that the submission handler was not called because of invalid fields
+    // expect(mockHandleSubmit).not.toHaveBeenCalled();
+
+    // // Await the asynchronous validation message for the first name.
+    // // We don't need `waitFor` here since the click will cause the state update.
+    // await screen.findByText(/First name is required/i);
   });
 });

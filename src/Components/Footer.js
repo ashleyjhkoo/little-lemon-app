@@ -26,10 +26,19 @@ const Footer = ({ className }) => {
                         <nav className="footer-menu-group menuGroup-contact">
                             <h2>Contact</h2>
                             <ul>
-                                <li id="contactList-1">1443 Norton ave.<br />
-                                    Chicago, WA 67052</li>
-                                <li id="contactList-2">125-342-6738</li>
-                                <li id="contactList-3">contact@littlelemon.com</li>
+                                <li id="contactList-1">
+                                    <span class="visually-hidden">Location</span>
+                                    1443 Norton ave.<br />
+                                    Chicago, WA 67052
+                                </li>
+                                <li id="contactList-2">
+                                    <span class="visually-hidden">Phone</span>
+                                    125-342-6738
+                                </li>
+                                <li id="contactList-3">
+                                    <span class="visually-hidden">Email</span>
+                                    contact@littlelemon.com
+                                </li>
                             </ul>
                         </nav>
                         <nav className="footer-menu-group menuGroup-social-media">

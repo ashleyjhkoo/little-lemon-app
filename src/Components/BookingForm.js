@@ -1,4 +1,4 @@
-import React, { useState, useId, useEffect } from 'react';
+import React, { useState, useId, useEffect, useRef } from 'react';
 import './BookingForm.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,6 +53,11 @@ const BookingForm = ({
   // Add a new state to control the redirection
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
+  // Set hooks for the submitting delay messages
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showDelayedMessage, setShowDelayedMessage] = useState(false);
+  const timerRef = useRef(null);
+
   const resetForm = () => {
     setFormData(initialFormData);
     setErrors({});
@@ -74,9 +79,9 @@ const BookingForm = ({
     // Validation for incorrect name formats
     else if (['firstName', 'lastName'].includes(name) && value.trim() !== '') {
       if (name === 'firstName' && !/^[A-Za-z\s-]+$/.test(value)) {
-        error = `First name is invalid`;
+        error = `First name is invalid: use letters only`;
       } else if (name === 'lastName' && !/^[A-Za-z\s-]+$/.test(value)) {
-        error = `Last name is invalid`;
+        error = `Last name is invalid: use letters only`;
       } else {
         error = '';
       }
@@ -93,7 +98,7 @@ const BookingForm = ({
           phoneNumberRequired: true,
         }));
       } else if (!/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(phoneNumber)) {
-        error = 'Phone number is invalid';
+        error = 'Phone number is invalid: use the format of 1234567890 or 123-456-7890';
         setPhoneNumberErrors((prevErrors) => ({
           ...prevErrors,
           phoneNumberFormat: true,
@@ -110,7 +115,7 @@ const BookingForm = ({
           emailAddressRequired: true,
         }));
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress)) {
-        error = 'Email address is invalid';
+        error = 'Email address is invalid: use the format of me@myemail.com';
         setEmailAddressErrors((prevErrors) => ({
           ...prevErrors,
           emailAddressFormat: true,
@@ -122,7 +127,7 @@ const BookingForm = ({
     }
 
     if (name === 'emailAddress' && value.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && contactMethod === 'phone') {
-      error = 'Email address is invalid';
+      error = 'Email address is invalid: use the format of me@myemail.com';
       setEmailAddressErrors((prevErrors) => ({
         ...prevErrors,
         emailAddressFormat: true,
@@ -130,7 +135,7 @@ const BookingForm = ({
     }
     
     if (name === 'phoneNumber' && value.trim() !== '' && !/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(value) && contactMethod === 'email') {
-      error = 'Phone number is invalid';
+      error = 'Phone number is invalid: use the format of 1234567890 or 123-456-7890';
       setPhoneNumberErrors((prevErrors) => ({
         ...prevErrors,
         phoneNumberFormat: true,
@@ -138,11 +143,11 @@ const BookingForm = ({
     }
 
     // if (name === 'emailAddress' && value.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-    //   error = 'Email address is invalid';
+    //   error = 'Email address is invalid: match the format of the placeholder.';
     // }
     
     // if (name === 'phoneNumber' && value.trim() !== '' && !/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(value)) {
-    //   error = 'Phone number is invalid';
+    //   error = 'Phone number is invalid: match the format of the placeholder.';
     // }
 
     return error;
@@ -249,7 +254,7 @@ const BookingForm = ({
             ...prevErrors,
             emailAddressFormat: true,
           }));
-          newErrors.emailAddress = 'Email address is invalid';
+          newErrors.emailAddress = 'Email address is invalid: use the format of me@myemail.com';
         } else {
           setEmailAddressErrors((prevErrors) => ({
             ...prevErrors,
@@ -265,7 +270,7 @@ const BookingForm = ({
           ...prevErrors,
           phoneNumberFormat: true,
         }));
-          newErrors.phoneNumber = 'Phone number is invalid';
+          newErrors.phoneNumber = 'Phone number is invalid: use the format of 1234567890 or 123-456-7890';
         } else {
           setPhoneNumberErrors((prevErrors) => ({
             ...prevErrors,
@@ -278,14 +283,14 @@ const BookingForm = ({
       // Real-time first name validation
       else if (name === 'firstName') {
         newErrors.firstName = (value.trim() !== '' && !/^[a-zA-Z ]*$/.test(value))
-          ? 'First name is invalid'
+          ? 'First name is invalid: use letters only'
           : '';
       }
 
       // Real-time last name validation
       else if (name === 'lastName') {
         newErrors.lastName = (value.trim() !== '' && !/^[a-zA-Z ]*$/.test(value))
-          ? 'Last name is invalid'
+          ? 'Last name is invalid: use letters only'
           : '';
       }
 
@@ -293,7 +298,7 @@ const BookingForm = ({
       // if (name === 'emailAddress' && value.trim() !== '' && !/\S+@\S+\.\S+/.test(value) && currentData.contactMethod === 'phone') {
       //   newErrors.emailAddress = 'Email address is invalid'
       // } else if (name === 'phoneNumber' && value.trim() !== '' && !/^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/.test(value) && currentData.contactMethod === 'email') {
-      //   newErrors.phoneNumber = 'Phone number is invalid'
+      //   newErrors.phoneNumber = 'Phone number is invalid: match the format of the placeholder.'
       // }
 
       // Clear error for other fields on typing
@@ -313,17 +318,56 @@ const BookingForm = ({
     
   };
 
+  // Handle loading events
+  const handleLoading = async (e) => {
+    // Prevent the default browser submission behavior
+    e.preventDefault();
+
+    // Initialize the submitting state
+    setIsSubmitting(true);
+
+    // Start a timer to show the delayed message after 400ms
+    // timerRef.current = setTimeout(() => {
+    const timeId = setTimeout(() => {
+      setShowDelayedMessage(true);
+    }, 400);
+    timerRef.current = timeId;
+
+    try {
+      await handleSubmit(e); // Assume this is an async operation
+    } finally {
+      // Clear the timer and reset the states
+      // It runs immediately after the handleSubmit operation completes (either successfully or with an error)
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      setIsSubmitting(false);
+      setShowDelayedMessage(false);
+    }
+  };
+
+  // Use useEffect for cleanup. This is the crucial missing part.
+  useEffect(() => {
+    return () => {
+      // This cleanup function will run when the component unmounts
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
   // Handle events when the user submits the submission type button
   const handleSubmit = async (e) => {
     // Prevent the default browser submission behavior
-    e.preventDefault();
+    // It has been called in the handleLoading function, so it is redundant to call here
+    // e.preventDefault();
     const { name, value } = e.target;
     const phoneRegex = /^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // Re-validate all fields before submission
 
-    // Initiate the variables
+    // Initiate the form validation and new error variables
     let formIsValid = true;
     const newErrors = {};
 
@@ -647,7 +691,7 @@ const formatLabel = (key) => {
 return (
         <>
             {/*When the button type set up as the 'button' is clicked, this 'handleSubmnit' event handler is triggered*/}
-            <form className={className} onSubmit={handleSubmit} aria-label="my booking form">
+            <form className={className} onSubmit={handleLoading} aria-label="my booking form">
                 <fieldset className="fieldsets fieldset-reservationDetails">
                     <legend className="legends legend-reservationDetails">Reservation details</legend>
                     <ul className="uls ul-reservationDetails">
@@ -735,17 +779,25 @@ return (
                         <li className="lis li-customerFirstName">
                             <label htmlFor={bookingFormId + '-first-name'}>Customer first name</label>
                             <input type="text" 
-                                   placeholder={'For example, Richard'} 
+                                   placeholder={'For example, Richard or richard'} 
                                    id={bookingFormId + '-first-name'} 
                                    name="firstName"
                                    value={formData.firstName}
                                   //  pattern="^[A-Za-z\s-]+$"
                                    onChange={handleChange}
                                    onBlur={handleBlur}
-                                   aria-describedby={bookingFormId + '-first-name-desc'}
+                                   aria-invalid={!!errors.firstName}
+                                   aria-describedby={
+                                      (!!errors.firstName)
+                                        ? `${bookingFormId}-first-name-desc ${bookingFormId}-first-name-error`
+                                        : `${bookingFormId}-first-name-desc`
+                                   }
+                                  //  aria-describedby={bookingFormId + '-first-name-desc'}
                                   //  required
                             />
-                            {errors.firstName && <p style={{ color: 'red' }} className="errorTexts">{errors.firstName}</p>}
+                            <div aria-live="polite">
+                              {errors.firstName && <p id={`${bookingFormId}-first-name-error`} style={{ color: 'red' }} className="errorTexts">{errors.firstName}</p>}
+                            </div>
                             <span id={bookingFormId + '-first-name-desc'} 
                                   className="assistiveTexts">(Required) Enter customer first name
                             </span>
@@ -753,17 +805,25 @@ return (
                         <li className="lis li-customerLastName">
                             <label htmlFor={bookingFormId + '-last-name'}>Customer last name</label>
                             <input type="text" 
-                                   placeholder={'For example, Kim'} 
+                                   placeholder={'For example, Kim or kim'} 
                                    id={bookingFormId + '-last-name'} 
                                    name="lastName"
                                    value={formData.lastName}
                                   //  pattern="^[A-Za-z\s-]+$"
                                    onChange={handleChange} 
                                    onBlur={handleBlur}
-                                   aria-describedby={bookingFormId + '-last-name-desc'}
+                                   aria-invalid={!!errors.lastName}
+                                   aria-describedby={
+                                      (!!errors.lastName)
+                                        ? `${bookingFormId}-last-name-desc ${bookingFormId}-last-name-error`
+                                        : `${bookingFormId}-last-name-desc`
+                                   }
+                                  //  aria-describedby={bookingFormId + '-last-name-desc'}
                                   //  required
                             />
-                            {errors.lastName && <p style={{ color: 'red' }} className="errorTexts">{errors.lastName}</p>}
+                            <div aria-live="polite">
+                                {errors.lastName && <p id={`${bookingFormId}-last-name-error`} style={{ color: 'red' }} className="errorTexts">{errors.lastName}</p>}
+                            </div>
                             <span id={bookingFormId + '-last-name-desc'} 
                                   className="assistiveTexts">(Required) Enter customer last name
                             </span>
@@ -817,15 +877,23 @@ return (
                                    // This pattern attribute validates the client side phone number input value
                                    pattern="^\d{3}-?\d{3}-?\d{4}$"
                                   //  pattern="^(?:\+\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}$"
-                                   placeholder={'For example, 123-456-7890'} 
+                                   placeholder={'For example, 123-456-7890 or 1234567890'} 
                                    onChange={handleChange} 
                                    onBlur={handleBlur}
-                                   aria-describedby={formData.contactMethod === 'phone' ? bookingFormId + '-phone-number-desc' : undefined} 
+                                   aria-invalid={!!phoneNumberErrors.phoneNumberRequired || !!phoneNumberErrors.phoneNumberFormat}
+                                   aria-describedby={
+                                      (!!phoneNumberErrors.phoneNumberRequired || !!phoneNumberErrors.phoneNumberFormat)
+                                        ? `${bookingFormId}-phone-number-desc ${bookingFormId}-phone-error`
+                                        : `${bookingFormId}-phone-number-desc`
+                                   }
+                                  //  aria-describedby={formData.contactMethod === 'phone' ? bookingFormId + '-phone-number-desc' : undefined} 
                             />
-                            {/*Display the phoneNumber required error message when the contact method is phone and the value is empty*/}
-                            {phoneNumberErrors.phoneNumberRequired && !phoneNumberErrors.phoneNumberFormat && formData.contactMethod === 'phone' && (<p style={{ color: 'red' }} className="errorTexts">{errors.phoneNumber}</p>)}
-                            {/*Display the phoneNumber format error message when the value is incorrect phone number format*/}
-                            {phoneNumberErrors.phoneNumberFormat && formData.phoneNumber !== '' && (<p style={{ color: 'red' }} className="errorTexts">{errors.phoneNumber}</p>)}
+                            <div aria-live="polite">
+                              {/*Display the phoneNumber required error message when the contact method is phone and the value is empty*/}
+                              {phoneNumberErrors.phoneNumberRequired && !phoneNumberErrors.phoneNumberFormat && formData.contactMethod === 'phone' && (<p id={`${bookingFormId}-phone-error`} style={{ color: 'red' }} className="errorTexts">{errors.phoneNumber}</p>)}
+                              {/*Display the phoneNumber format error message when the value is incorrect phone number format*/}
+                              {phoneNumberErrors.phoneNumberFormat && formData.phoneNumber !== '' && (<p id={`${bookingFormId}-phone-error`} style={{ color: 'red' }} className="errorTexts">{errors.phoneNumber}</p>)}
+                            </div>
                             {/*When the contact method is phone, then display the phone number assistive text saying the phone number is required*/}
                             {formData.contactMethod === 'phone' ? (
                                 <span id={bookingFormId + '-phone-number-desc'} 
@@ -847,22 +915,30 @@ return (
                                    placeholder={'For example, me@myemail.com'} 
                                    onChange={handleChange}
                                    onBlur={handleBlur}
-                                   aria-describedby={formData.contactMethod === 'email' ? bookingFormId + '-email-address-desc' : undefined} 
+                                   aria-invalid={!!emailAddressErrors.emailAddressRequired || !!emailAddressErrors.emailAddressFormat}
+                                   aria-describedby={
+                                      (!!emailAddressErrors.emailAddressRequired || !!emailAddressErrors.emailAddressFormat)
+                                        ? `${bookingFormId}-email-address-desc ${bookingFormId}-email-error`
+                                        : `${bookingFormId}-email-address-desc`
+                                    }
+                                  //  aria-describedby={formData.contactMethod === 'email' ? bookingFormId + '-email-address-desc' : undefined} 
                             />
-                            {/*Display the emailAddress required error message when the contact method is email and the value is empty*/}
-                            {emailAddressErrors.emailAddressRequired && !emailAddressErrors.emailAddressFormat &&formData.contactMethod === 'email' && (<p style={{ color: 'red' }} className="errorTexts">{errors.emailAddress}</p>)}
-                            {/*Display the emailAddress format error message when the value is incorrect email format*/}
-                            {emailAddressErrors.emailAddressFormat && formData.emailAddress !== '' && (<p style={{ color: 'red' }} className="errorTexts">{errors.emailAddress}</p>)}
-                            {/*When the contact method is email, then display the email address assistive text saying the email address is required*/}
-                            {formData.contactMethod === 'email' ? (
-                                <span id={bookingFormId + '-email-address-desc'} 
-                                      className="assistiveTexts">(Required) Enter customer email
-                                </span>
-                            ) : (
-                                <span id={bookingFormId + '-email-address-desc'} 
-                                      className="assistiveTexts">(Optional) Enter customer email
-                                </span>
-                            )}
+                            <div aria-live="polite">
+                              {/*Display the emailAddress required error message when the contact method is email and the value is empty*/}
+                              {emailAddressErrors.emailAddressRequired && !emailAddressErrors.emailAddressFormat &&formData.contactMethod === 'email' && (<p id={`${bookingFormId}-email-error`} style={{ color: 'red' }} className="errorTexts">{errors.emailAddress}</p>)}
+                              {/*Display the emailAddress format error message when the value is incorrect email format*/}
+                              {emailAddressErrors.emailAddressFormat && formData.emailAddress !== '' && (<p id={`${bookingFormId}-email-error`} style={{ color: 'red' }} className="errorTexts">{errors.emailAddress}</p>)}
+                            </div>
+                              {/*When the contact method is email, then display the email address assistive text saying the email address is required*/}
+                              {formData.contactMethod === 'email' ? (
+                                  <span id={bookingFormId + '-email-address-desc'} 
+                                        className="assistiveTexts">(Required) Enter customer email
+                                  </span>
+                              ) : (
+                                  <span id={bookingFormId + '-email-address-desc'} 
+                                        className="assistiveTexts">(Optional) Enter customer email
+                                  </span>
+                              )}
                         </li>
                         <li className="lis li-customerComments">
                             <label htmlFor={bookingFormId + '-comments'}>Comments</label>
@@ -881,11 +957,12 @@ return (
                 </fieldset>
                 {/*Booking form's Cancel and Confirm reservation buttons*/}
                 <div role="group" aria-label="Button group label" className="buttonGroup">
-                    <button type="button" className="buttons buttonCancel" onClick={handleCancelClick}>Cancel</button>
+                    <button type="button" className="buttons buttonCancel" onClick={handleCancelClick} aria-label="On Click Cancel">Cancel</button>
                     <button type="submit" 
                             className="buttons buttonConfirmReservation"
                             style={{ backgroundColor: areAllFieldsFilled() ? '#495E57' : '#D0D0D0' , color: areAllFieldsFilled() ? '#ffffffff' : '#000000ff'}}
-                            aria-label="Confirm reservation"
+                            aria-label="On Click Confirm Reservation"
+                            aria-live="polite"
                     >
                         Confirm reservation
                     </button>
@@ -922,12 +999,16 @@ return (
                             <div className="confirmationButtonSet">                            
                               <button 
                                   className="confirmationButton modalCancelButton" 
-                                  onClick={() => setShowConfirmationModal(false)}>
+                                  onClick={() => setShowConfirmationModal(false)}
+                                  aria-label="Cancel confirmation modal"
+                              >
                                       Cancel
                               </button>
                               <button 
                                   className="confirmationButton modalButton" 
-                                  onClick={handleConfirmClick}>
+                                  onClick={handleConfirmClick}
+                                  aria-label="On Click Confirm"
+                              >
                                       Confirm
                               </button>
                             </div>
@@ -954,11 +1035,24 @@ return (
                               <h3 id="success-modal-description">You successfully submitted the form. </h3>
                               <button 
                                   className="successButton modalButton" 
-                                  onClick={handleOkClick}>
+                                  onClick={handleOkClick}
+                                  aria-label="On Click Okay"
+                              >
                                       Okay
                               </button>
                         </div>
                     </dialog>
+                )}
+
+                {/* Display loading status to the user */}
+                {isSubmitting && (
+                  <dialog role="status" aria-live="polite">
+                    {showDelayedMessage ? (
+                      <p>Your request is taking longer than expected. It is still loading...</p>
+                    ) : (
+                      <p>Submitting now...</p>
+                    )}
+                  </dialog>
                 )}
             </form>
         </>

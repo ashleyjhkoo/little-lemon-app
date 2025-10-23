@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useState, useEffect, useRef, useCallback } from 'react';
 import './BookingPage.css';
 import BookingForm from './BookingForm';
 import ViewMyReservationForm from './ViewMyReservationForm';
@@ -57,10 +57,13 @@ const BookingPage = (tabs) => {
     const formClass = 'form-container_bookingForm';
     const viewFormClass = 'form-container_viewMyReservationForm';
 
+    // Tab related hook
+    const tabListRef = useRef(null);
+
     // Toggle tab visibility
-    const handleTabClick = (tabName) => {
+    const handleTabClick = useCallback((tabName) => {
         setSearchParams({tab: tabName});
-    }
+    }, [setSearchParams]);
 
     // useReducer hook: 
     // It catch up the available time slots depending on the date selection on the calender using the Fetch API
@@ -156,33 +159,77 @@ const BookingPage = (tabs) => {
     // Empty dependency array ensures this runs only once
     }, []); 
 
+    // Make the accessible tabs that are navigable via the keyboard
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            const tabs = Array.from(tabListRef.current.querySelectorAll('[role="tab"]'));
+            const activeIndex = tabs.findIndex(tab => tab.id === `${activeTab}-title`);
+            let newIndex = activeIndex;
+
+            if (e.key === 'ArrowRight') {
+                newIndex = (activeIndex + 1) % tabs.length;
+            } else if (e.key === 'ArrowLeft') {
+                newIndex = (activeIndex - 1 + tabs.length) % tabs.length;
+            }
+
+            if (newIndex !== activeIndex) {
+                tabs[newIndex].focus();
+                handleTabClick(tabs[newIndex].id.replace('-title', ''));
+            }
+        };
+
+        const tabListElement = tabListRef.current;
+        if (tabListElement) {
+            tabListElement.addEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            if (tabListElement) {
+                tabListElement.removeEventListener('keydown', handleKeyDown);
+            }
+        };
+    }, [activeTab, handleTabClick]);
+
     return (
         <main className={bookingBgClass}>
             <section className={bookingContentClass}>
-                <ul className="tabs-container" role="tablist">
-                        <li
+                <ul className="tabs-container" role="tablist" ref={tabListRef}>
+                    <li role="presentation">
+                        <button
                             className={`tab-button ${activeTab === 'reserve-a-table' ? 'active' : ''}`}
                             onClick={() => handleTabClick('reserve-a-table')}
                             role="tab"
                             id="reservations-title"
+                            aria-controls="reserve-a-table-panel"
+                            aria-selected={activeTab === 'reserve-a-table'}
                         >
                             Reserve a Table
-                        </li>
-                        <li
+                        </button>
+                    </li>
+                    <li role="presentation">
+                        <button
                             className={`tab-button ${activeTab === 'view-my-reservation' ? 'active' : ''}`}
                             onClick={() => handleTabClick('view-my-reservation')}
                             role="tab"
                             id="view-reservation-title"
+                            aria-controls="view-my-reservation-panel"
+                            aria-selected={activeTab === 'view-my-reservation'}
                         >
                             View My Reservation
-                        </li>
+                        </button>
+                    </li>
                 </ul>
                 <div className="tab-content-container">
                     {/* <div className={`tab-content ${activeTab === 'tab1' ? 'visible' : ''}`}> */}
                         {/* Content for Tab 1 goes here */}
                         {/* <h1 id="reservations-title">Reserve a Table</h1> */}
                     {activeTab === 'reserve-a-table' && (
-                        <div className="tab-content">
+                        <div className="tab-content"
+                             id="reserve-a-table-panel"
+                             role="tabpanel"
+                             aria-labelledby="reservations-title"
+                             aria-hidden={activeTab !== 'reserve-a-table'}
+                        >
                             <BookingForm 
                                 className={formClass} 
                                 availableTimes={availableTimes}
@@ -201,7 +248,12 @@ const BookingPage = (tabs) => {
                     {/* <div className={`tab-content ${activeTab === 'tab2' ? 'visible' : ''}`}> */}
                     {/* <h1 id="view-reservation-title">View My Reservation</h1> */}
                     {activeTab === 'view-my-reservation' && (
-                        <div className="tab-content">
+                        <div className="tab-content"
+                             id="view-my-reservation-panel"
+                             role="tabpanel"
+                             aria-labelledby="view-reservation-title"
+                             aria-hidden={activeTab !== 'view-my-reservation'}
+                        >
                             <ViewMyReservationForm 
                                 className={viewFormClass}
                             />

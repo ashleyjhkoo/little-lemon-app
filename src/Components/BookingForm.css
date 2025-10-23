@@ -133,7 +133,7 @@ select {
   height: 48px;
   font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
   font-size: 16px; /* Change font size */
-  color: rgb(135, 135, 135); /* Change text color */
+  color: rgb(0, 0, 0); /* Change text color */
   background-color: #f8f8f8; /* Change background color of the input field */
   border: 1px solid #ccc; /* Add a border */
   padding: 2px 8px; /* Add padding inside the input field */
@@ -165,7 +165,7 @@ select::selection {
     height: 48px;
     font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
     font-size: 16px;
-    color: rgb(135, 135, 135);
+    color: rgb(0, 0, 0);
     background-color: #f8f8f8;
     border: 1px solid #ccc;
     padding: 2px 8px; /* Padding for the text */
@@ -185,14 +185,14 @@ select::selection {
     right: 15px; /* Adjust this for padding */
     transform: translateY(-50%);
     pointer-events: none;
-    color: rgb(135, 135, 135);
+    color: rgb(0, 0, 0);
 }
 
 input {
   height: 48px;
   font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
   font-size: 16px; /* Change font size */
-  color: rgb(135, 135, 135); /* Change text color */
+  color: rgb(0, 0, 0); /* Change text color */
   background-color: #f8f8f8; /* Change background color of the input field */
   border: 1px solid #ccc; /* Add a border */
   padding: 2px 8px; /* Add padding inside the input field */
