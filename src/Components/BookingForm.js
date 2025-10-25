@@ -960,9 +960,14 @@ return (
                     <button type="button" className="buttons buttonCancel" onClick={handleCancelClick} aria-label="On Click Cancel">Cancel</button>
                     <button type="submit" 
                             className="buttons buttonConfirmReservation"
-                            style={{ backgroundColor: areAllFieldsFilled() ? '#495E57' : '#D0D0D0' , color: areAllFieldsFilled() ? '#ffffffff' : '#000000ff'}}
+                            // this conditional styling was used when this button was still clickable even before the form becomes valid
+                            // to display the server side error messages to the user
+                            // style={{ backgroundColor: areAllFieldsFilled() ? '#495E57' : '#D0D0D0' , color: areAllFieldsFilled() ? '#ffffffff' : '#000000ff'}}
                             aria-label="On Click Confirm Reservation"
                             aria-live="polite"
+                            // when the validation is false, then disabled is true
+                            // when the validation becomes true, then disabled becomes false, and the form becomes valid
+                            disabled={!areAllFieldsFilled()} 
                     >
                         Confirm reservation
                     </button>

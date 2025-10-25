@@ -1,16 +1,19 @@
 
-    ul > li::marker {
+ul > li::marker {
       content: '';
     }
+
     .content-container_nav {
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
         width: 100%;
         margin: 0 auto;
         padding-left: 10px;
         padding-right: 10px;
         justify-content: space-between;
         gap: 10px;
+        box-sizing: border-box;
     }
 
     .content-container_nav img {
@@ -21,19 +24,17 @@
     .nav-item-container {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         width: 100%;
+        height: auto;
         justify-content: left;
         gap: 10px;
         flex-wrap: wrap;
         list-style-type: none;
         padding-left: 0;
-        /* border-bottom: 3px double purple;  */
-        align-items: stretch;
     }
 
     .nav-item {
-        flex-grow: 1;
-        align-self: center;
         color: #000;
         text-align: center;
         font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -41,9 +42,10 @@
         font-style: normal;
         font-weight: 350;
         line-height: normal;
+
         list-style-type: none;
         position: relative;
-        height: 100%;
+        height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -53,7 +55,6 @@
         transition: background-color 0.3s ease; /* Smooth transition for the hover effect */
         display: flex; /* Makes the entire padding area clickable */
         text-decoration: none;
-        /* padding-bottom: 11px; */
         height: 100%;
         align-items: center;
     }
@@ -95,12 +96,16 @@
     .content-container_nav {
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
         width: 100%;
         margin: 0 auto;
         padding-left: 20px;
         padding-right: 20px;
         justify-content: space-between;
         gap: 10px;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
     }
 
     .content-container_nav img {
@@ -110,15 +115,17 @@
 
     .nav-item-container {
         display: flex;
+        flex-wrap: wrap;
         flex-direction: row;
         width: 100%;
         justify-content: left;
-        gap: 20px;
+        gap: 10px;
         flex-wrap: wrap;
+        list-style-type: none;
+        padding-left: 0;
     }
 
     .nav-item {
-        align-self: center;
         color: #000;
         text-align: center;
         font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
@@ -126,6 +133,54 @@
         font-style: normal;
         font-weight: 350;
         line-height: normal;
+
+        list-style-type: none;
+        position: relative;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-item a {
+        transition: background-color 0.3s ease; /* Smooth transition for the hover effect */
+        display: flex; /* Makes the entire padding area clickable */
+        text-decoration: none;
+        height: 100%;
+        align-items: center;
+    }
+
+    .nav-item a:visited {
+    color: #000; /* Keep the same color even after visiting */
+    text-decoration: none; /* Keep no underline */
+    background-color: #fff;
+    }
+
+    .nav-item a:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* Focus and active state: Green bottom line */
+    .nav-item a.active,
+    .nav-item a:focus {
+    outline: none; /* Removes the default focus outline */
+    position: relative;
+    }
+
+    /* Create the green bottom line using the ::after pseudo-element */
+    .nav-item a.active::after,
+    .nav-item a:focus::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #495E57;
+    }
+
+    a:-webkit-any-link {
+        text-decoration: none;
     }
 }
 
@@ -148,11 +203,19 @@
 
     .nav-item-container {
         display: flex;
+        flex-direction: row;
         width: 500px;
         justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        list-style-type: none;
+        padding-left: 0;
+        align-items: stretch;
     }
 
     .nav-item {
+        flex-grow: 1;
+
         align-self: center;
         color: #000;
         text-align: center;
@@ -161,6 +224,54 @@
         font-style: normal;
         font-weight: 350;
         line-height: normal;
+
+        list-style-type: none;
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-item a {
+        transition: background-color 0.3s ease; /* Smooth transition for the hover effect */
+        display: flex; /* Makes the entire padding area clickable */
+        text-decoration: none;
+        height: 100%;
+        align-items: center;
+    }
+
+    .nav-item a:visited {
+    color: #000; /* Keep the same color even after visiting */
+    text-decoration: none; /* Keep no underline */
+    background-color: #fff;
+    }
+
+    .nav-item a:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* Focus and active state: Green bottom line */
+    .nav-item a.active,
+    .nav-item a:focus {
+    outline: none; /* Removes the default focus outline */
+    position: relative;
+    }
+
+    /* Create the green bottom line using the ::after pseudo-element */
+    .nav-item a.active::after,
+    .nav-item a:focus::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #495E57;
+    }
+
+    a:-webkit-any-link {
+        text-decoration: none;
     }
 }
 
@@ -182,9 +293,23 @@
         display: flex;
         width: 500px;
         justify-content: space-between;
+
+        display: flex;
+        flex-direction: row;
+        width: 500px;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        list-style-type: none;
+        padding-left: 0;
+        align-items: stretch;
+
+
     }
 
     .nav-item {
+        flex-grow: 1;
+
         align-self: center;
         color: #000;
         text-align: center;
@@ -193,5 +318,53 @@
         font-style: normal;
         font-weight: 350;
         line-height: normal;
+
+        list-style-type: none;
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-item a {
+        transition: background-color 0.3s ease; /* Smooth transition for the hover effect */
+        display: flex; /* Makes the entire padding area clickable */
+        text-decoration: none;
+        height: 100%;
+        align-items: center;
+    }
+
+    .nav-item a:visited {
+    color: #000; /* Keep the same color even after visiting */
+    text-decoration: none; /* Keep no underline */
+    background-color: #fff;
+    }
+
+    .nav-item a:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* Focus and active state: Green bottom line */
+    .nav-item a.active,
+    .nav-item a:focus {
+    outline: none; /* Removes the default focus outline */
+    position: relative;
+    }
+
+    /* Create the green bottom line using the ::after pseudo-element */
+    .nav-item a.active::after,
+    .nav-item a:focus::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #495E57;
+    }
+
+    a:-webkit-any-link {
+        text-decoration: none;
     }
 }

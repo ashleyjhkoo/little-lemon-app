@@ -8,7 +8,7 @@
         box-sizing: border-box;
         margin: 0 auto;
         justify-content: center;
-        padding: 30px 0;
+        padding: 30px 10px;
         flex-grow: 1;
         }
 
@@ -36,8 +36,11 @@
         gap: 20px; 
         flex-wrap: wrap;
         justify-content: center;
-        padding-left: 20px;
-        padding-right: 20px;
+        /* padding-left: 20px;
+        padding-right: 20px; */
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        width: 100%;
         flex-grow: 1;
         height: auto;
         }
@@ -116,7 +119,7 @@
         box-sizing: border-box;
         margin: 0 auto;
         justify-content: center;
-        padding: 30px 0;
+        padding: 40px 20px 20px 20px;
         }
 
         .testimonial-title {
@@ -139,8 +142,8 @@
         gap: 20px; 
         flex-wrap: wrap;
         justify-content: center;
-        padding-left: 20px;
-        padding-right: 20px;
+        /* padding-left: 20px;
+        padding-right: 20px; */
         }
 
         .testimonial-card-group {

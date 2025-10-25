@@ -98,10 +98,18 @@
     font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
-.reserveATableButton{
+.viewMyReservationButton:hover {
+    background: #fafafa;
+}
+
+.reserveATableButton {
     background: #FFF;
     color: #000;
     font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+.reserveATableButton:hover {
+    background: #fafafa;
 }
 
 .homeButton {
@@ -110,6 +118,9 @@
     font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
+.homeButton:hover {
+    background: #35433e;
+}
 
 @media (min-width: 500px) {
 

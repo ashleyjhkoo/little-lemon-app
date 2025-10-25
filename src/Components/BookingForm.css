@@ -262,6 +262,10 @@ height: 48px;
 font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 .buttonCancel {
     display: flex;
     flex-wrap: wrap;
@@ -278,6 +282,11 @@ font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
     background: #FFF;
 }
 
+.buttonCancel:hover {
+    background: #fafafa;
+}
+
+/* Default Disabled Styling */
 .buttonConfirmReservation {
     display: flex;
     flex-wrap: wrap;
@@ -290,6 +299,32 @@ font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
 
     border-radius: 8px;
     background: #D0D0D0;
+    /* This color used to be used when the button was still clickable 
+    before the validation is fulfilled to display the server side error messages
+    color: #000000ff; 
+    */
+    color: rgb(125, 125, 125);
+}
+
+/* This hover effect was used when the button was still clickable
+   before the validation is fulfilled to display the server side error messages
+.buttonConfirmReservation:hover {
+  background: #b6b6b6;
+  color: #000000ff;
+} 
+*/
+
+/* The form becomes validated and the disabled attribute becomes false */
+.buttonConfirmReservation:valid {
+  background: #495E57;
+  color: rgb(255, 255, 255);
+}
+
+/* This styling is for the validated button's hover effect */
+.buttonConfirmReservation:valid:hover {
+  /* background: #2b3733; */
+  background: #35433e;
+  color: rgb(255, 255, 255);
 }
 
 /* Modal Styling - Start */
@@ -381,7 +416,8 @@ font-family: 'Karla', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 .modalCancelButton:hover {
-  background-color: #dcdcdc;
+  /* background-color: #dcdcdc; */
+  background-color: #fafafa;
   color: rgb(0, 0, 0);
 }
 
