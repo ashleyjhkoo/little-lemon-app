@@ -30,7 +30,9 @@ Visit this link: https://www.figma.com/proto/3Ji9VIVFBI4DdeySZmPXIX/Little-Lemon
   You need to pre-install the React testing dependencies below:
   Hit `npm install --save-dev @testing-library/react @testing-library/jest-dom jest`
   You are still in the project folder, hit `npm test`
+  
   or
+  
   Launches the test runner in the interactive watch mode.\
   See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
